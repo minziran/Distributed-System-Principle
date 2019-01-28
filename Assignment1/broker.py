@@ -19,10 +19,7 @@ def main(publisher_Port, subscriber_Port):
         backend.bind(addr2)
         print("Broker is already connected...... ")
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 6294e0d0a92632d4c8f9f9acd54902e59d291d13
         events = zmq.device(zmq.FORWARDER, frontend, backend)
 
 
