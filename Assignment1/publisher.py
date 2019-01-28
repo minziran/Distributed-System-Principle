@@ -2,9 +2,10 @@ import zmq
 import random
 import sys
 import time
+import socket
 
 port = "5557"
-IPAddr = "129.114.111.157"
+IPAddr = "localhost"
 if len(sys.argv) > 1:
     port =  sys.argv[1]
     int(port)
@@ -12,11 +13,12 @@ if len(sys.argv) > 1:
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 # print("tcp://" + IPAddr + ":"+ port)
-socket.bind("tcp://" + IPAddr + ":"+ port)
+socket.bind("tcp://127.0.0.1:"+ port)
+socket.connect("tcp://129.114.111.157:"+port)
 
-for num in range(0, 5):
-    topic = random.randrange(9999,10005)
-    messagedata = random.randrange(1,215) - 80
+for num in range(0, 100):
+    topic = "Hello"
+    messagedata = "World!"
     print (topic, messagedata)
-    socket.send((topic, messagedata))
+    socket.send_string(topic+messagedata)
     time.sleep(1)
