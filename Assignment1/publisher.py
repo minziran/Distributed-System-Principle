@@ -11,7 +11,7 @@ if len(sys.argv) > 1:
 
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
-socket.bind(f"tcp://{IPAddr}:{port}")
+socket.bind("tcp://" + IPAddr + ":"+ port)
 
 while True:
     topic = random.randrange(9999,10005)
