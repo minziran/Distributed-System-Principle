@@ -11,6 +11,7 @@ if len(sys.argv) > 1:
 
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
+print("tcp://" + IPAddr + ":"+ port)
 socket.bind("tcp://" + IPAddr + ":"+ port)
 
 while True:
