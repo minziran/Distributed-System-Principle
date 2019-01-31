@@ -1,8 +1,3 @@
-import os              # OS level utilities
-import sys
-import argparse   # for command line parsing
-
-from signal import SIGINT
 import time
 import threading
 
@@ -29,14 +24,14 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
         elif 'broker' in host.name:
             broker = host
 
-    broker_ip = broker.IP()
+    broker_IP = broker.IP()
 
     def call_broker():
        broker.cmd('xterm -e python ZMQ_broker.py 5556 5557')
     def call_publisher(pub_command):
-        pub.cmd('xterm -e python ZMQ_publisher.py  ' + str(broker_ip) + str(pub_command))
+        pub.cmd('xterm -e python ZMQ_publisher.py  ' + str(broker_IP) + str(pub_command))
     def call_subscriber(sub_command):
-        sub.cmd('xterm -e python ZMQ_subscriber.py  ' + str(broker_ip) + str(sub_command))
+        sub.cmd('xterm -e python ZMQ_subscriber.py  ' + str(broker_IP) + str(sub_command))
 
     threading.Thread(target=call_broker, args=()).start()
     time.sleep(3)
@@ -62,7 +57,6 @@ def main():
     topo_type = 'bus'
     pub_command_list =[]
     sub_command_list = []
-
 
 
 

@@ -1,0 +1,10 @@
+pub_num : 3
+sub_num : 4
+topo_type : bus
+pub_commond0 :Lights
+pub_command1 :Lights
+pub_command2 :Lights
+sub_command0 :Lights
+sub_command1 :Lights
+sub_command2 :Lights
+sub_command3 :Lights

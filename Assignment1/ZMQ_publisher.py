@@ -4,24 +4,39 @@ import csv
 import time
 
 
-def main(broker_IP, broker_Port, topic):
+def register_pub( ):
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    addr = "tcp://" + broker_IP + ":" + broker_Port
+    socket.connect(addr)
+    return context, socket
 
 
+def publish():
+    while True:
+
+        with open('./test_topic_files/'+topic + '.csv', newline='') as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            for row in spamreader:
+                print(', '.join(row))
+                socket.send_string(topic+" "+', '.join(row))
+                time.sleep(3)
+
+if __name__ == '__main__':
+    # broker_IP = 'localhost'
+    broker_Port = '5556'
+
+    if len(sys.argv) == 3:
+        broker_IP = sys.argv[1]
+        topic = sys.argv[2]
+    else:
+        # Ex.ZMQ_ publisher.py broker_IP Lights
+        exit("Run 'ZMQ_publisher.py  broker_IP topic'")
 
     try:
-        context = zmq.Context()
-        socket = context.socket(zmq.PUB)
-        addr = "tcp://" + broker_IP + ":" +broker_Port
-        socket.connect(addr)
+        context, socket = register_pub()
+        publish()
 
-        while True:
-            socket.send_string(topic + " " + 'Hello World')
-            # with open(topic + '.csv', newline='') as csvfile:
-            #     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-            #     for row in spamreader:
-            #         print(', '.join(row))
-            #         socket.send_string(topic+" "+', '.join(row))
-            #         time.sleep(int(rate))
     except Exception as e:
         print(e)
         print("bring down zmq publisher")
@@ -32,17 +47,7 @@ def main(broker_IP, broker_Port, topic):
 
 
 
-if __name__ == '__main__':
-    broker_IP = 'localhost'
-    broker_Port = '5556'
-    if len(sys.argv) == 2:
-        topic = sys.argv[1]
 
-    else:
-        # Ex.ZMQ_ publisher.py Lights
-        exit("Run 'ZMQ_publisher.py  topic'")
-
-    main(broker_IP, broker_Port, topic)
 
 
 

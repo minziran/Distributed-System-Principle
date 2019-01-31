@@ -2,11 +2,8 @@ import zmq
 import sys
 
 def main(publisher_Port, subscriber_Port):
-
-
     try:
         context = zmq.Context(1)
-
         # socket facing publisher
         frontend = context.socket(zmq.SUB)
         addr1 = "tcp://*:" + publisher_Port
@@ -19,10 +16,7 @@ def main(publisher_Port, subscriber_Port):
         backend.bind(addr2)
         print("Broker is already connected...... ")
 
-
         events = zmq.device(zmq.FORWARDER, frontend, backend)
-
-
 
     except Exception as e:
         print(e)
@@ -33,9 +27,6 @@ def main(publisher_Port, subscriber_Port):
         backend.close()
         context.term()
 
-
-
-
 if __name__ == '__main__':
 
     if len(sys.argv) == 3:
@@ -45,8 +36,6 @@ if __name__ == '__main__':
     else:
         # Ex. ZMQ_broker.py 5556 5557
         exit("Run 'ZMQ_broker.py publisherPort subscriberPort'")
-
-
 
     main(publisher_Port, subscriber_Port)
 
