@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+from mininet.net import Mininet
+from mininet.node import Controller
+from mininet.cli import CLI
+from mininet.log import setLogLevel, info
 from mininet.topo import Topo
 from typing import List
 
@@ -8,8 +12,7 @@ class StarTopology(Topo):
     """
     A class for star topology
     """
-    def __init__( self, _pubNum: int =None, _subNum: int=None):
-
+    def __init__(self, _pubNum: int =None, _subNum: int=None):
         # Create star topology. At least there is 1 pub and 1 sub
         if _pubNum is None:
             _pubNum = 1
@@ -56,8 +59,15 @@ class StarTopology(Topo):
         # connect each host's own switches to the broker's switch
         for num in range(1, hostNum):
             self.addLink(self.switchList[0], self.switchList[num])
+	
+	print("The Star Topology Finished!")
 
 
-# topos = {'mytopo': ( lambda: StarTopology() ) }
+topos = {'mytopo': (lambda: StarTopology(2, 3))}
 
-# if __name__ == '__main__':
+def main():
+    test = StarTopology(2, 3)
+
+if __name__ == '__main__':
+    setLogLevel( 'info' )
+    main()
