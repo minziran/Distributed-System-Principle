@@ -1,17 +1,12 @@
-"""Custom topology example
-
-Two directly connected switches plus a host for each switch:
-
-   host --- switch --- switch --- host
-
-Adding the 'topos' dict with a key/value pair to generate our newly defined
-topology enables one to pass in '--topo=mytopo' from the command line.
+"""
+This is the file for star topology
 """
 
 from mininet.topo import Topo
 
+
 class StarTopology(Topo):
-    "Simple topology example."
+    # Star topology example.
 
     def __init__(self, _pubNum=None, _subNum=None):
         "Create custom topo."
@@ -65,7 +60,6 @@ class StarTopology(Topo):
         # connect each host's own switches to the broker's switch
         for num in range(1, hostNum):
             self.addLink(self.switchList[0], self.switchList[num])
-
 
 
 topos = { 'startopo': ( lambda: StarTopology(2, 3) ) }
