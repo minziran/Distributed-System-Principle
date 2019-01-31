@@ -4,7 +4,7 @@ from mininet.net import Mininet
 from mininet.util import irange,dumpNodeConnections
 from mininet.log import setLogLevel
 
-class BusToplogy:
+class BusToplogy(topo):
 	"Linear topology of k switches, with one host per switch."
 	def __init__(self, pub, sub, b, **opts):
 
