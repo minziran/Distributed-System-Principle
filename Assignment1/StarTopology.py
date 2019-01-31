@@ -5,7 +5,7 @@ from mininet.node import Controller
 from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.topo import Topo
-from typing import List
+from mininet.node import CPULimitedHost
 
 
 class StarTopology(Topo):
@@ -60,13 +60,16 @@ class StarTopology(Topo):
         for num in range(1, hostNum):
             self.addLink(self.switchList[0], self.switchList[num])
 	
-	print("The Star Topology Finished!")
 
 
 topos = {'mytopo': (lambda: StarTopology(2, 3))}
 
 def main():
-    test = StarTopology(2, 3)
+    topo = StarTopology(2, 3)
+    net = Mininet(topo = topo, host = CPULimitedHost, link = TCLink)
+    net.start()
+    dumpNodeConnections(net.hosts)
+    net.stop()
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
