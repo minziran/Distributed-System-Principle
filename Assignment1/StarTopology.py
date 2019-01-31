@@ -1,19 +1,19 @@
-#!/usr/bin/python
+"""
+This is the file for star topology
+"""
 
-from mininet.net import Mininet
-from mininet.node import Controller
-from mininet.cli import CLI
-from mininet.log import setLogLevel, info
 from mininet.topo import Topo
-from mininet.node import CPULimitedHost
 
 
 class StarTopology(Topo):
-    """
-    A class for star topology
-    """
-    def __init__(self, _pubNum: int =None, _subNum: int=None):
-        # Create star topology. At least there is 1 pub and 1 sub
+    # Star topology example.
+
+    def __init__(self, _pubNum=None, _subNum=None):
+        "Create custom topo."
+
+        # Initialize topology
+        Topo.__init__( self )
+
         if _pubNum is None:
             _pubNum = 1
 
@@ -26,11 +26,11 @@ class StarTopology(Topo):
         # Initialize topology
         Topo.__init__(self)
 
-        self.hostList: List[str] = list()
-        self.switchList: List[str] = list()
+        self.hostList = list()
+        self.switchList = list()
 
         # track the name of host and switch.
-        index: int = 1
+        index = 1
         hostNum = _pubNum + _subNum + 1     # a broker at the center
 
         # Add hosts
@@ -41,6 +41,7 @@ class StarTopology(Topo):
             index += 1
 
         # Add switches
+        index = 1
         for num in range(0, hostNum):
             sName = "s" + str(index)
             self.switchList.append(self.addSwitch(sName))
@@ -59,18 +60,6 @@ class StarTopology(Topo):
         # connect each host's own switches to the broker's switch
         for num in range(1, hostNum):
             self.addLink(self.switchList[0], self.switchList[num])
-	
 
 
-topos = {'mytopo': (lambda: StarTopology(2, 3))}
-
-def main():
-    topo = StarTopology(2, 3)
-    net = Mininet(topo = topo, host = CPULimitedHost, link = TCLink)
-    net.start()
-    dumpNodeConnections(net.hosts)
-    net.stop()
-
-if __name__ == '__main__':
-    setLogLevel( 'info' )
-    main()
+topos = { 'startopo': ( lambda: StarTopology(2, 3) ) }
