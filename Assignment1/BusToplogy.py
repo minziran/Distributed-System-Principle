@@ -34,3 +34,16 @@ class BusToplogy:
 	if lastSwitch:
 		self.addLink( switch, lastSwitch)
 	lastSwitch = switch
+
+topos = {'mytopo': (lambda: BusTopology(2, 3, 1))}
+	
+def main():
+    topo = BusTopology(2, 3, 1)
+    net = Mininet(topo = topo, host = CPULimitedHost, link = TCLink)
+    net.start()
+    dumpNodeConnections(net.hosts)
+    net.stop()
+
+if __name__ == '__main__':
+    setLogLevel( 'info' )
+    main()
