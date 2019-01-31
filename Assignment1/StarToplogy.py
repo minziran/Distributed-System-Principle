@@ -7,10 +7,7 @@ from mininet.log import setLogLevel
 class BusToplogy:
 	"Linear topology of k switches, with one host per switch."
 	def __init__(self, j, l, **opts):
-	"""Init.
-	k: number of switches (and hosts)
-	hconf: host configuration options
-	lconf: link configuration options"""
+
 	super(LinearTopo, self).__init__(**opts)
 	k = j + l
 	self.k = k
