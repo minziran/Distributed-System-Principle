@@ -12,6 +12,7 @@ class BusToplogy:
 	self.pub = pub
 	self.sub = sub
 	self.b = b
+	
 	lastSwitch = None
 	for i in irange(1, pub):
 		host = self.addHost('pub%s' % i)
@@ -22,13 +23,13 @@ class BusToplogy:
 		##lastSwitch = switch
 	for i in irange(1, sub):
 		host = self.addHost('sub%s' % i)
-		switch = self.addSwitch('s%s' % i)
+		switch = self.addSwitch('s%s' % i+pub)
 		self.addLink( host, switch)
 		##if lastSwitch:
 		##	self.addLink( switch, lastSwitch)
 		##lastSwitch = switch
-	host = self.addhost('b%s' % len(b))
-	switch = self.addSwitch('s%s' % len(b))
+	host = self.addhost('b%s' % b)
+	switch = self.addSwitch('s%s' % sub+pub+b)
 	self.addlink(host, switch)
 	if lastSwitch:
 		self.addLink( switch, lastSwitch)
