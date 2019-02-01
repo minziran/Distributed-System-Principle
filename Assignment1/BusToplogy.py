@@ -3,7 +3,7 @@ from mininet.topo import Topo
 
 
 class BusTopology(Topo):
-    # Star topology example.
+    # Bus topology example.
 
     def __init__(self, _pubNum=None, _subNum=None):
         "Create custom topo."
