@@ -11,7 +11,7 @@ from mininet.node import OVSController
 
 
 def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, broker):
-    net = Mininet(topo=topo, link=TCLink)
+    net = Mininet(topo=topo, link=TCLink, controller=OVSController)
     net.start()
     dumpNodeConnections(net.hosts)
     net.pingAll()
