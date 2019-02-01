@@ -1,16 +1,16 @@
 import time
 import threading
-
+from signal import SIGINT
 from BusTopology import BusTopology
 from StarTopology import StarTopology
-from mininet.topo import Topo
+
 from mininet.net import Mininet
 from mininet.link import TCLink
 from mininet.util import dumpNodeConnections
+from mininet.node import OVSController
 
 
 def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, broker):
-
     net = Mininet(topo=topo, link=TCLink)
     net.start()
     dumpNodeConnections(net.hosts)
@@ -27,9 +27,11 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
     broker_IP = broker.IP()
 
     def call_broker():
-       broker.cmd('xterm -e python ZMQ_broker.py 5556 5557')
+        broker.cmd('xterm -e python ZMQ_broker.py 5556 5557')
+
     def call_publisher(pub_command):
         pub.cmd('xterm -e python ZMQ_publisher.py  ' + str(broker_IP) + str(pub_command))
+
     def call_subscriber(sub_command):
         sub.cmd('xterm -e python ZMQ_subscriber.py  ' + str(broker_IP) + str(sub_command))
 
@@ -42,7 +44,7 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
         threading.Thread(target=call_subscriber(sub_command_list[k]), args=()).start()
         time.sleep(5)
 
-    try :
+    try:
         while True:
             pass
     except Exception as e:
@@ -54,22 +56,21 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
 def main():
     pub_num = 3
     sub_num = 3
-    topo_type = 'bus'
-    pub_command_list =[]
+    topo_type = 'star'
+    pub_command_list = []
     sub_command_list = []
-
-
 
     pub_list, sub_list = [], []
     broker = None
     if topo_type == 'bus':
-        topo = BusTopology(pub_num,sub_num)
+        topo = BusTopology(pub_num, sub_num)
         create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, broker)
     elif topo_type == 'star':
-        topo = StarTopology(pub_num,sub_num)
+        topo = StarTopology(pub_num, sub_num)
         create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, broker)
     else:
         exit("Could not find mached topology. 'bus' and 'star' are provided")
+
 
 if __name__ == '__main__':
     main()
