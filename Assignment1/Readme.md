@@ -4,7 +4,7 @@
 
 To start off with, we defined two topologies, a bus and star topology. These are defined in the files, **BusTopology.py** and **StarTopology.py**. There are graphical examples shown below:
 
-![Bus Topology](/Assignment1/Pictures/Bus.PNG)
+![Bus Topology](/Assignment1/Pictures/Bus.PNG){:height="36px" width="36px"}
 
 ![Star Topology](/Assignment1/Pictures/Star.PNG)
 
