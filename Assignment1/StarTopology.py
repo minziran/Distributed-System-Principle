@@ -26,61 +26,64 @@ class StarTopology(Topo):
         # Initialize topology
         Topo.__init__(self)
 
-        self.hostList = list()
-        self.switchList = list()
+        hostList = list()
+        switchList = list()
 
         # track the name of host and switch.
-        index = 1
+
         hostNum = _pubNum + _subNum + 1     # a broker at the center
 
         # Add broker at the center
-        self.hostList.append(self.addHost("broker"))
+        hostList.append(self.addHost("broker"))
 
         # Add publishers
+        index = 1
 
         for num in range(0, _pubNum):
             pubName = "pub"+str(index)
-            self.hostList.append(self.addHost(pubName))
+            hostList.append(self.addHost(pubName))
             index += 1
 
         # Add subscribers
+        index = 1
 
         for num in range(0, _subNum):
             subName = "sub"+str(index)
-            self.hostList.append(self.addHost(subName))
+            hostList.append(self.addHost(subName))
             index += 1
 
         # Add switches
         # Add and connect bs0 to the broker
-        self.switchList.append(self.addSwitch('bs0'))
+        switchList.append(self.addSwitch('bs0'))
+
 
         # Add local switches to the publisher
         index = 1
         for num in range(0, _pubNum):
             pubName = "ps" + str(index)
-            self.switchList.append(self.addSwitch(pubName))
+            switchList.append(self.addSwitch(pubName))
             index += 1
 
         # Add local switches to the publisher
         index = 1
         for num in range(0, _subNum):
             subName = "ss" + str(index)
-            self.switchList.append(self.addSwitch(subName))
+            switchList.append(self.addSwitch(subName))
             index += 1
 
         # Form the star topology, let the first host "h0" the broker and put it at the center
 
         # self.addLink(leftHost, leftSwitch)
         # connect the broker with switch
-        self.addLink(self.hostList[0], self.switchList[0])
+        self.addLink(hostList[0], switchList[0])
 
         # connect other hosts with own their switches
         for num in range(1, hostNum):
-            self.addLink(self.hostList[num], self.switchList[num])
+            self.addLink(hostList[num], switchList[num])
 
         # connect each host's own switches to the broker's switch
         for num in range(1, hostNum):
-            self.addLink(self.switchList[0], self.switchList[num])
+            self.addLink(switchList[0], switchList[num])
 
 
 topos = { 'startopo': ( lambda: StarTopology(2, 3) ) }
