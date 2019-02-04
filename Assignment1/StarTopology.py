@@ -9,7 +9,7 @@ class StarTopology(Topo):
     # Star topology example.
 
     def __init__(self, _pubNum=None, _subNum=None):
-        "Create custom topo."
+        """Create start topology"""
 
         # Initialize topology
         Topo.__init__( self )
@@ -33,11 +33,22 @@ class StarTopology(Topo):
         index = 1
         hostNum = _pubNum + _subNum + 1     # a broker at the center
 
-        # Add hosts
 
-        for num in range(0, hostNum):
-            hName = "h"+str(index)
-            self.hostList.append(self.addHost(hName))
+        # Add broker at the center
+        self.hostList.append(self.addHost("broker"))
+
+        # Add publishers
+
+        for num in range(0, _pubNum):
+            pubName = "pub"+str(index)
+            self.hostList.append(self.addHost(pubName))
+            index += 1
+
+        # Add subscribers
+
+        for num in range(0, _subNum):
+            subName = "sub"+str(index)
+            self.hostList.append(self.addHost(subName))
             index += 1
 
         # Add switches
