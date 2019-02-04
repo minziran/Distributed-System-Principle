@@ -1,7 +1,7 @@
 pub_num : 3
 sub_num : 4
 topo_type : bus
-pub_commond0 :Lights
+pub_command0 :Lights
 pub_command1 :Lights
 pub_command2 :Lights
 sub_command0 :Lights
