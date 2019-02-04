@@ -4,6 +4,11 @@
 
 To start off with, we defined two topologies, a bus and star topology. These are defined in the files, **BusTopology.py** and **StarTopology.py**. There are graphical examples shown below:
 
+Bus Topology                                                             |  Star Topology
+:-----------------------------------------------------------------------:|:------------------------------------------------------------------------------:
+<img src="/Assignment1/Pictures/Bus.PNG" height="300" width="300" ></a>  | <img src="/Assignment1/Pictures/Star.PNG" height="300" width="300" ></a>
+
+
 #### Bus Topology
 <a href="Bus Topology"><img src="/Assignment1/Pictures/Bus.PNG" height="300" width="300" ></a>
 
