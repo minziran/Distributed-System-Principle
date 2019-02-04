@@ -4,7 +4,9 @@
 
 To start off with, we defined two topologies, a bus and star topology. These are defined in the files, **BusTopology.py** and **StarTopology.py**. There are graphical examples shown below:
 
+![Bus Topology](/Pictures/Bus.PNG)
 
+![Star Topology](/Pictures/Star.PNG)
 
 We then wrote code for the broker, subscriber, and publisher which are contained in the files: **ZMQ_broker.py**, **ZMQ_subscriber.py** and **ZMQ_publisher.py**. We next wrote some input files that define which topology we will use, how many publishers and subscribers there will be, and which **test_topic_file** we will use for each publisher and subscriber. We included 6 input files for various different scenarios. 
 
