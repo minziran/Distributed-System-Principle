@@ -13,13 +13,14 @@ from mininet.node import OVSController
 class MNSystem(object):
     def __init__(self, _topo=None, _pub_command_list=list(), _sub_command_list=list(),
                  _pub_list=list(),_sub_list=list(), _broker=None):
+        self.topo = _topo
         self.net = Mininet(topo=_topo, link=TCLink, controller=OVSController)
         self.pub_list = _pub_list
         self.sub_list = _sub_list
         self.pub_command_list = _pub_command_list
         self.sub_command_list = _sub_command_list
         self.broker = _broker
-        
+
         self.net.start()
         dumpNodeConnections(self.net.hosts)
         self.net.pingAll()
@@ -59,6 +60,50 @@ class MNSystem(object):
             print(e)
 
         self.net.stop()
+
+    def add_host(self, _host_type):
+        # FInd name, switch name and new IP for new host
+
+        if _host_type == 'pub':
+            self.topo.pubNum += 1       # update the topology
+            newName = "pub" + str(len(self.pub_list))
+            newSwitchName = "ps" + str(len(self.pub_list))
+
+        elif _host_type == "sub":
+            self.topo.subNum += 1            # update the topology
+            newName = "sub" + str(len(self.sub_list))
+            newSwitchName = "ss" + str(len(self.sub_list))
+        else:
+            print("Please input the right type of host")
+            return
+
+        newIP = "10.0.0." + str(len(self.net.hosts) + 1)
+
+        # Add new host into  net
+        self.net.addHost(newName)
+        self.net.addSwitch(newSwitchName)
+
+        # link the local switch with new host
+        self.net.addLink(self.net.get(newName), self.net.get(newSwitchName))
+
+        # add the new host to broker
+        self.net.addLink(self.net.get(newSwitchName), self.net.get('bs0'))
+
+        # attach the new link
+
+        self.net.get("bs0").attach('bs0-eth' + str(len(self.net.hosts) + 1))
+
+        # set up IP for the new host
+        self.net.get(newName).setIP(newIP)
+
+
+    def delete_host(self, hostName):
+        # find the name of the host
+        # if it is a broker, cannot delete
+        # if it is a subscriber, delete it
+        # if it is a publisher, delete it
+
+        pass
 
 
 def main():
