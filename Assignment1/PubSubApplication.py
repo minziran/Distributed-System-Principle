@@ -32,24 +32,21 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
     def call_broker():
         print("in call broker")
         broker.cmd('xterm -e python3 ZMQ_broker.py 5556 5557')
-       
     def call_publisher(pub_command):
-        print("in call publisher")
-        pub.cmd('xterm -e python3 ZMQ_publisher.py  ' + str(broker_IP) + str(pub_command))
+        print("in call broker")
+        pub.cmd('xterm -e python ZMQ_publisher.py  ' + str(broker_IP) + str(pub_command))
     def call_subscriber(sub_command):
         print("in call subscriber")
-        sub.cmd('xterm -e python3 ZMQ_subscriber.py  ' + str(broker_IP) + str(sub_command))
+        sub.cmd('xterm -e python ZMQ_subscriber.py  ' + str(broker_IP) + str(sub_command))
 
     threading.Thread(target=call_broker, args=()).start()
     time.sleep(3)
     for k, pub in enumerate(pub_list):
-        print("enumerate publisher")
         threading.Thread(target=call_publisher(pub_command_list[k]), args=()).start()
-        time.sleep(10)
+        time.sleep(5)
     for k, sub in enumerate(sub_list):
-        print("enumerate subscriber")
         threading.Thread(target=call_subscriber(sub_command_list[k]), args=()).start()
-        time.sleep(10)
+        time.sleep(5)
 
     try :
         while True:
@@ -61,7 +58,7 @@ def create_net(topo, pub_command_list, sub_command_list, pub_list, sub_list, bro
 
 def get_input(file):
 
-    file = open(sys.argv[1])
+    file = open('./InputeFile/'+sys.argv[1])
 
     for line in file:
         if 'pub_num' in line:
