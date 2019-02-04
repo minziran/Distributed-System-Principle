@@ -1,9 +1,0 @@
-pub_num : 2
-sub_num : 4
-topo_type : star
-pub_command0 :Humidity
-pub_command1 :Temperature
-sub_command0 :Humidity
-sub_command1 :Humidity
-sub_command2 :Temperature
-sub_command3 :Temperature
