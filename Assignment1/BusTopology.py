@@ -18,12 +18,22 @@ class BusTopology(Topo):
         index = 1
         hostNum = _pubNum + _subNum + 1  # a broker at the center
 
-        # Add hosts
+        # Add publishers
 
-        for num in range(0, hostNum):
-            hName = "h" + str(index)
-            self.hostList.append(self.addHost(hName))
+        for num in range(0, _pubNum):
+            pubName = "pub" + str(index)
+            self.hostList.append(self.addHost(pubName))
             index += 1
+
+        # Add subscribers
+
+        for num in range(0, _subNum):
+            subName = "sub" + str(index)
+            self.hostList.append(self.addHost(subName))
+            index += 1
+
+        # Add broker
+        self.hostList.append(self.addHost("broker"))
 
         # Add local switches
         index = 1
