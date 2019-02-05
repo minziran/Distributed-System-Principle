@@ -19,10 +19,7 @@ class BusTopology(Topo):
 
         # track the name of host and switch.
 
-        hostNum = _pubNum + _subNum + 1  # a broker at the center
-
-        # Add broker
-        hostList.append(self.addHost("broker"))
+        hostNum = _pubNum + _subNum  # a broker at the center
 
         # Add publishers
         index = 1
@@ -39,9 +36,6 @@ class BusTopology(Topo):
             subName = "sub" + str(index)
             hostList.append(self.addHost(subName))
             index += 1
-
-        # Add local switch for broker
-        localSwitchList.append(self.addSwitch("bs0"))
 
         # Add local switches for publishers
         index = 1
@@ -80,4 +74,4 @@ class BusTopology(Topo):
             self.addLink(localSwitchList[num], busSwitchList[num//2])
 
 
-topos = { 'bustopo': ( lambda: BusTopology(2, 3) ) }
+topos = { 'bustopo': ( lambda: BusTopology(3, 3) ) }

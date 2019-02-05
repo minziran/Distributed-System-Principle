@@ -31,10 +31,8 @@ class StarTopology(Topo):
 
         # track the name of host and switch.
 
-        hostNum = _pubNum + _subNum + 1     # a broker at the center
+        hostNum = _pubNum + _subNum     # a broker at the center
 
-        # Add broker at the center
-        hostList.append(self.addHost("broker"))
 
         # Add publishers
         index = 1
@@ -53,9 +51,6 @@ class StarTopology(Topo):
             index += 1
 
         # Add switches
-        # Add and connect bs0 to the broker
-        switchList.append(self.addSwitch('bs0'))
-
 
         # Add local switches to the publisher
         index = 1
@@ -71,19 +66,13 @@ class StarTopology(Topo):
             switchList.append(self.addSwitch(subName))
             index += 1
 
-        # Form the star topology, let the first host "h0" the broker and put it at the center
-
-        # self.addLink(leftHost, leftSwitch)
-        # connect the broker with switch
-        self.addLink(hostList[0], switchList[0])
-
         # connect other hosts with own their switches
-        for num in range(1, hostNum):
+        for num in range(0, hostNum):
             self.addLink(hostList[num], switchList[num])
 
-        # connect each host's own switches to the broker's switch
+        # connect each host's own switches to the first host's switch
         for num in range(1, hostNum):
             self.addLink(switchList[0], switchList[num])
 
 
-topos = { 'startopo': ( lambda: StarTopology(2, 3) ) }
+topos = { 'startopo': ( lambda: StarTopology(3, 3) ) }
