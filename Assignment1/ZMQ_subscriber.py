@@ -9,20 +9,17 @@ def register_sub(broker_IP, broker_Port, topic):
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     addr = "tcp://" + broker_IP + ":" + broker_Port
-    if sys.argv[2] == '2':
-        socket.connect(addr)
-    else:
-        socket.bind(addr)
+    socket.connect(addr)
     # socket.connect("tcp://127.0.0.1:5200")
     for key in topic:
         # print("key "+ key)
         socket.setsockopt_string(zmq.SUBSCRIBE, key)
-    print("===Already Register Subscriber===")
+    print("===Already Registered Subscriber===")
     return context, socket
 
 
 def notify(socket):
-    # print("In notify")
+
     while True:
         msg = socket.recv_string()
         # print(msg)
@@ -33,7 +30,9 @@ def notify(socket):
         # print(time)
         # print(value)
         print(msg)
-        logging.info(time.time()+msg)
+        temp = msg.split(' ')
+        info = str(time.time()) + ' ' + str(time.time() - float(temp[1]))
+        logging.info(info)
 
 
 def broker_mode():
@@ -49,10 +48,9 @@ def broker_mode():
 
     # Ex.ZMQ_subsciber.py sub1 1 broker_IP Lights Humidity Temperature
     # exit("Run 'ZMQ_subscriber.py subsciber_name mode BrokerIP topic1 topic2 topic3.....'")
-    logging.basicConfig(filename='Subscriber' + sys.argv[1]+'.log', level=logging.debug())
+
     try:
         context, socket = register_sub(broker_IP, broker_Port, topic)
-        socket.bind()
         notify(socket)
     except Exception as e:
         print(e)
@@ -62,9 +60,29 @@ def broker_mode():
         socket.close()
         context.term()
 
+def register_rep(sub_port):
+    context = zmq.Context()
+    socket = context.socket(zmq.REP)
+    socket.bind("tcp://*:%s" % sub_port)
+    print("===Already Registered Subscriber===")
+    return context, socket
+
+def rep_notify(socket,sub_port):
+    while True:
+        #  Wait for next request from client
+        message = socket.recv()
+        print("Received request: ", message)
+        temp = message.decode().split(' ')
+        info =str(time.time()) +' '+ str(time.time()-float(temp[1]))
+        logging.info(info)
+        # print(temp)
+        time.sleep(1)
+        socket.send_string("Reply from %s" % sub_port)
+
+
 def direct_connect():
-    pub_IP = sys.argv[1]
-    pub_Port = '5557'
+    # pub_IP = sys.argv[1]
+    sub_port = '5556'
     topic = []
     topic_num = len(sys.argv) - 2
     for key in range(2, topic_num + 2):
@@ -72,14 +90,13 @@ def direct_connect():
         # print(sys.argv[key+2])
         topic.append(sys.argv[key])
     # print(topic)
-
     # Ex.ZMQ_subsciber.py sub1 1 Lights Humidity Temperature
     # exit("Run 'ZMQ_subscriber.py subsciber_name mode BrokerIP topic1 topic2 topic3.....'")
 
     logging.basicConfig(filename='Subscriber'+ sys.argv[2]+'.log', level=logging.DEBUG)
     try:
-        context, socket = register_sub(pub_IP, pub_Port, topic)
-        notify(socket)
+        context, socket = register_rep(sub_port)
+        rep_notify(socket,sub_port)
 
     except Exception as e:
         print(e)
@@ -91,6 +108,8 @@ def direct_connect():
 
 
 if __name__=="__main__":
+
+    logging.basicConfig(filename='Subscriber' + sys.argv[1] + '.log', level=logging.DEBUG)
     # broker_IP = 'localhost'
     if sys.argv[2] == '2':
         broker_mode()
