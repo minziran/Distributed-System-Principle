@@ -1,0 +1,13 @@
+pub_num : 4
+sub_num : 6
+topo_type : star
+pub_command0 :Humidity
+pub_command1 :Humidity
+pub_command2 :Lights
+pub_command3 :Lights
+sub_command0 :Humidity
+sub_command1 :Humidity
+sub_command2 :Humidity
+sub_command3 :Lights
+sub_command4 :Lights
+sub_command5 :Lights
