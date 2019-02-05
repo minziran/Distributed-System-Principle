@@ -52,6 +52,7 @@ class BusTopology(Topo):
             index += 1
 
         # Add local switches for subscribers
+        index = 1
         for num in range(0, _subNum):
             sName = "ss" + str(index)
             localSwitchList.append(self.addSwitch(sName))
