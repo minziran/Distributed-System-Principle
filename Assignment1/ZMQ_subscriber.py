@@ -91,7 +91,7 @@ def direct_connect():
         topic.append(sys.argv[key])
     # print(topic)
     # Ex.ZMQ_subsciber.py sub1 1 Lights Humidity Temperature
-    # exit("Run 'ZMQ_subscriber.py subsciber_name mode BrokerIP topic1 topic2 topic3.....'")
+    # exit("Run 'ZMQ_subscriber.py subsciber_number mode BrokerIP topic1 topic2 topic3.....'")
 
     logging.basicConfig(filename='Subscriber'+ sys.argv[2]+'.log', level=logging.DEBUG)
     try:
@@ -111,9 +111,11 @@ if __name__=="__main__":
 
     logging.basicConfig(filename='Subscriber' + sys.argv[1] + '.log', level=logging.DEBUG)
     # broker_IP = 'localhost'
-    if sys.argv[2] == '2':
+    if sys.argv[2] == 'b':
         broker_mode()
-    elif(sys.argv[2] == '1'):
+    elif(sys.argv[2] == 'nb'):
         direct_connect()
+    else:
+        print("Please input the right mode: b or nb")
 
 

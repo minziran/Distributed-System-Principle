@@ -3,6 +3,7 @@ import os
 import csv
 import time
 import sys
+import socket
 
 
 def register_pub():
@@ -62,12 +63,14 @@ if __name__ == '__main__':
         exit("Run 'ZMQ_publisher.py  broker_IP topic'")
 
     try:
-        if mode == '2':
+        if mode == 'b':
             context, socket = register_pub()
             publish()
-        else:
-            context,socket = req_register(broker_IP,broker_Port)
+        elif mode == 'nb':
+            context, socket = req_register(broker_IP,broker_Port)
             req_send()
+        else:
+            print("Please input the right mode: b or nb")
 
     except Exception as e:
         print(e)
