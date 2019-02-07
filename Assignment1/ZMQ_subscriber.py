@@ -91,7 +91,7 @@ def direct_connect():
         topic.append(sys.argv[key])
     # print(topic)
     # Ex.ZMQ_subsciber.py sub1 1 Lights Humidity Temperature
-    # exit("Run 'ZMQ_subscriber.py subsciber_number mode BrokerIP topic1 topic2 topic3.....'")
+    # exit("Run 'ZMQ_subscriber.py subsciber_number mode Broker/PublisherIP topic1 topic2 topic3.....'")
 
     logging.basicConfig(filename='Subscriber'+ sys.argv[2]+'.log', level=logging.DEBUG)
     try:

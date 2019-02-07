@@ -60,7 +60,7 @@ if __name__ == '__main__':
         topic = sys.argv[3]
     else:
         # Ex.ZMQ_ publisher.py broker_IP Lights
-        exit("Run 'ZMQ_publisher.py  broker_IP topic'")
+        exit("Run 'ZMQ_publisher.py mode broker/subscriber_IP topic'")
 
     try:
         if mode == 'b':
