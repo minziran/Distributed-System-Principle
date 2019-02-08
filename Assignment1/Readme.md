@@ -1,6 +1,5 @@
-##Distributed System Principle Assignment 1##
-
-####Team 2####
+##Distributed System Principle Assignment 1
+####Team 2
 *****
 **Abstract:**
 
