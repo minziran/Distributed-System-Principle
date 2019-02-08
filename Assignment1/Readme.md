@@ -30,12 +30,14 @@ The command to construct a star topology with broker is:
 ![StarTopology](./Pictures/StarTopology.jpg)
 
 ![NBStarTopology](./Pictures/NBStarTopology.jpg)
+
 *Fig 1 The structure of star topology (with and without broker)*
 
 The result is shown in Fig 2.
 
 ![NBstartoporesult](./Pictures/NBstartoporesult.jpg)
 ![startoporesult](./Pictures/startoporesult.jpg)
+
 *Fig 2 The CLI of star topology (with and without broker)*
 
 ***Bus Topology Network***
@@ -49,12 +51,14 @@ The bus topology is illustrated in Fig 3.
  ![BusTopology](./Pictures/BusTopology.jpg)
 
  ![NBBusTopologyNB](./Pictures/NBBusTopologyNB.jpg)
+ 
  *Fig 3. The structure of bus topology (with broker)*
  
  The result is shown in Fig 4.
  
 ![NBbustoporesult](./Pictures/NBbustoporesult.jpg)
 ![bustoporesult](./Pictures/bustoporesult.jpg)
+
 *Fig 4. The CLI of bus topology (with and without broker)*
 
 **Pub/Sub System on Star Topology**
@@ -67,6 +71,7 @@ For star topology network, first we run the ZMQ_broker at broker.
 The ports of publishers and subscribers are 5556 and 5557 respectively.
 
 ![starbroker](./Pictures/starbroker.jpg)
+
 *Fig 5 The broker*
 
 Then we run the publishers and subscribers. 
@@ -77,6 +82,7 @@ For publisher pub1, let the topic be Humidity. It contains the humidity data on 
 
 ![pub1star](./Pictures/pub1star.jpg)
 ![pub2star](./Pictures/pub2star.jpg)
+
 *Fig 6 The running pub1 and pub2*
 
 For publisher pub2, we choose another topic, say Lights and it is also in broker mode.
@@ -87,6 +93,7 @@ The results are shown in Fig 7.
 ![sub1star](./Pictures/sub1star.jpg)
 ![sub2star](./Pictures/sub2star.jpg)
 ![sub3star](./Pictures/sub3star.jpg)
+
 *Fig 7 The three subscribers*
 
 Even when a subscriber or publisher is offline (using control + C to interrupt the script.), it can rejoin the pub/sub system by simply running the file again (shown in Fig 8). 
@@ -95,6 +102,7 @@ Even when a subscriber or publisher is offline (using control + C to interrupt t
 ![interruptsub](./Pictures/interruptsub.jpg)
 (b)
 ![interuptpub](./Pictures/interuptpub.jpg)
+
 *Fig 8 The interrupt subscriber and publisher (a) sub1 (b) pub1*
 
 ***Non-broker Mode***
@@ -112,16 +120,19 @@ The command to construct a star topology without a broker is:
 ![pub1starNB](./Pictures/pub1starNB.jpg)
 ![pub2starNB](./Pictures/pub2starNB.jpg)
 ![pub3starNB](./Pictures/pub3starNB.jpg)
+
 *Fig 9. the running publishers of a star-topology network (without a broker)*
 
 ![sub1starNB](./Pictures/sub1starNB.jpg)
 ![sub2starNB](./Pictures/sub2starNB.jpg)
 ![sub3starNB](./Pictures/sub3starNB.jpg)
+
 *Fig 10. the running subscribers of a star-topology network (without a broker)*
 
 In this case, both publishers' and subscribers' IPs are required since there is no broker any more. Use ifconfig, we can find the IP addresses of all publishers and subscribers ( shown in Fig 11).
 
 ![table](./Pictures/table.jpg)
+
 *Fig 11 The IP address of publishers and subscribers in Mininet*
 
 **Pub/Sub System on Bus Topology**
@@ -141,12 +152,14 @@ The subscribers are shown in Fig 12.
 ![sub1bus](./Pictures/sub1bus.jpg)
 ![sub2bus](./Pictures/sub2bus.jpg)
 ![sub3bus](./Pictures/sub3bus.jpg)
+
 *Fig 12. The results of three subscribers in bus topology (with broker)*
 
 The publishers and subscribers can also quit and join at any time (as shown in Fig 13).
 
 ![pubbusNBinterrupt](./Pictures/pubbusNBinterrupt.jpg)
 ![subbusNBinterrupt](./Pictures/subbusNBinterrupt.jpg)
+
 *Fig 13. Publishers and subscribers can join and leave at any time*
 
 ***Non-broker Mode***
@@ -164,11 +177,13 @@ Assume pub1, pub2 and pub3 publish Humidity, Lights and Temperature respectively
 ![pub1busNB](./Pictures/pub1busNB.jpg)
 ![pub2busNB](./Pictures/pub2busNB.jpg)
 ![pub3busNB](./Pictures/pub3busNB.jpg)
+
 *Fig 14. The running of publishers in a bus-topology network (without broker)*
 
 ![sub1busNB](./Pictures/sub1busNB.jpg)
 ![sub2busNB](./Pictures/sub2busNB.jpg)
 ![sub3busNB](./Pictures/sub3busNB.jpg)
+
 *Fig 15. The running of subscribers in a bus-topology network (without broker)*
 
 Similar with non-broker star-topology network, the publisher and subscriber cannot join and leave at any time in the non-broker mode. 
@@ -184,6 +199,7 @@ For star topology with and without a broker, the time difference of subscriber i
 ![starTopoBrokerlogPlot](./starTopoBrokerlogPlot/Subscriber1.png)
 (b)
 ![starTopoNBlogPlot](./starTopoNBlogPlot/Subscriber1.png)
+
 *Fig 16 The time difference of publication and reception in star-topology network (a) without broker*
 
 For bus topology, the time difference is shown in Fig 17. 
@@ -194,6 +210,7 @@ For bus topology, the time difference is shown in Fig 17.
 ![busTopoNBlogPlot](./busTopoNBlogPlot/Subscriber2.png)
 
 *Fig 17 The time difference of publication and reception in bus-topology network (a) without broker*
+
 The difference between broker mode and non-broker mode is obvious. For both topologies, in non-broker case, the first message has an extremely high latency and the successive message will be low. However, for broker mode, the time latency is similar.
 
 **Effort of Teammates**
