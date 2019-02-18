@@ -5,13 +5,14 @@ from mininet.topo import Topo
 class BusTopology(Topo):
     # Bus topology example.
 
-    def __init__(self, _pubNum=None, _subNum=None):
+    def __init__(self, _pubNum=None, _subNum=None, _brokerNum=None):
         "Create custom topo."
 
         # Initialize topology
         Topo.__init__( self )
         self.pubNum = _pubNum
         self.subNum = _subNum
+        self.brokerNum = _brokerNum
 
         hostList = list()
         localSwitchList = list()
@@ -19,11 +20,16 @@ class BusTopology(Topo):
 
         # track the name of host and switch.
 
-        hostNum = _pubNum + _subNum + 1  # a broker at the center
+        hostNum = _pubNum + _subNum + _brokerNum  # a broker at the center
 
-        # Add broker
-        hostList.append(self.addHost("broker"))
-
+        # Add brokers
+        index = 1
+        #hostList.append(self.addHost("broker"))
+        for num in range(0, _brokerNum):
+            hostName = "host" + str(index)
+            hostList.append(self.addHost("hostName"))
+            index += 1
+            
         # Add publishers
         index = 1
 
@@ -40,8 +46,13 @@ class BusTopology(Topo):
             hostList.append(self.addHost(subName))
             index += 1
 
-        # Add local switch for broker
-        localSwitchList.append(self.addSwitch("bs0"))
+        # Add local switch for brokers
+        index = 1
+        
+        for num in range(0,_brokerNum):
+            sName = "bs" + str(index)
+            localSwitchList.append(self.addSwitch(sName))
+            index += 1
 
         # Add local switches for publishers
         index = 1
