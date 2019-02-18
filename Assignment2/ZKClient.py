@@ -19,16 +19,18 @@ logging.basicConfig()
 class ZKAssigment(object):
     def __init__(self):
         self.zk = KazooClient()
-        self.zk.start()
-        self.brokers_path: str = "/brokers/"
-        self.broker_num: int = 0
+        self.brokers_path: str = "/brokers"
         self.pub_path = "/"
         self.sub_path = "/"
+        self.broker_num: int = 0
+        self.pub_num: int = 0
+        self.sub_num = 0
         self.election = None
+        self.zk.start()
 
     def create_brokers(self, _num: int = 3):
         for i in range(_num):
-            path = self.brokers_path + f"zbroker{i}"
+            path = self.brokers_path + "/" + f"zbroker{i}"
             data = f"zbroker{i}"
             self.create_nodes(path, data)
             self.broker_num += 1
@@ -69,21 +71,27 @@ class ZKAssigment(object):
 
     # A method for broker watching. If one of the broker dies,
     # elect a new leader broker
-    def watch_brokers(self):
-        @self.zk.ChildrenWatch(self.brokers_path)
-        def watch_handler(_brokers):
-            if len(_brokers) < self.broker_num and len(_brokers) > 0:
+    def brokers_watch(self):
+        @self.zk.ChildrenWatch(self.brokers_path + "/")
+        def broker_watch_handler(_brokers):
+            if self.broker_num > len(_brokers) > 0:
                 # check if the leader is down
                 # Find out who is down
 
-                self.election = self.zk.Election(self.brokers_path, "brokerLeader")
+                self.election = self.zk.Election(self.brokers_path + "/", "brokerLeader")
                 leaderList: List[str] = self.election.contenders()
                 newLeader: str = leaderList[-1]
 
                 # set the data to the /brokers znode
-                self.zk.set(self.brokers_path[0: -1], newLeader.encode("utf-8"))
-                print(self.zk.get(self.brokers_path[0: -1])[0])
+                self.zk.set(self.brokers_path, newLeader.encode("utf-8"))
+                print(self.zk.get(self.brokers_path)[0])
                 print("The leader broker is changed!\n")
+
+    def pubsub_watch(self):
+        @self.zk.DataWatch(self.brokers_path)
+        def pubsub_watch_handler(data, status):
+            print(data)
+            print(status)
 
     def stop_kazoo(self):
         self.zk.stop()
@@ -99,7 +107,7 @@ if __name__ == "__main__":
     test.create_pubs(3)
     test.create_subs(3)
 
-    test.watch_brokers()
+    test.brokers_watch()
     test.delete_node("/brokers/zbroker1")
 
     # clean up
