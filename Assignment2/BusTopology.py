@@ -26,8 +26,8 @@ class BusTopology(Topo):
         index = 1
         #hostList.append(self.addHost("broker"))
         for num in range(0, _brokerNum):
-            hostName = "broker" + str(index)
-            hostList.append(self.addHost("hostName"))
+            brokerName = "broker" + str(index)
+            hostList.append(self.addHost(brokerName))
             index += 1
             
         # Add publishers
