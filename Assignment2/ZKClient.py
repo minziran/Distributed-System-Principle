@@ -63,7 +63,6 @@ class ZKAssigment(object):
 
     def delete_node(self, path: str = "/test_node"):
         if self.check_exists(path):
-            print("Znode at " + path + " is found!\n")
             self.zk.delete(path)
             print("Znode at " + path + " is already deleted!\n")
         else:
@@ -84,17 +83,24 @@ class ZKAssigment(object):
 
                 # set the data to the /brokers znode
                 self.zk.set(self.brokers_path, newLeader.encode("utf-8"))
-                print(self.zk.get(self.brokers_path)[0])
-                print("The leader broker is changed!\n")
+                print(self.zk.get(self.brokers_path)[0].decode("utf-8") + " becomes the new leader")
 
     def pubsub_watch(self):
         @self.zk.DataWatch(self.brokers_path)
-        def pubsub_watch_handler(data, status):
-            print(data)
-            print(status)
+        def pubsub_watch_handler(bData, status):
+            print("the data is: " + bData.decode("utf-8") + ".\n")
+            print("The status is: " + str(status) + ".\n")
 
     def stop_kazoo(self):
         self.zk.stop()
+
+    def clean_up(self, num):
+        for num in range(0, num):
+            test.delete_node(f"/brokers/zbroker{num}")
+            test.delete_node(f"/zsub{num}")
+            test.delete_node(f"/zpub{num}")
+
+        test.delete_node("/brokers")
 
     def __del__(self):
         self.zk.stop()
@@ -108,15 +114,11 @@ if __name__ == "__main__":
     test.create_subs(3)
 
     test.brokers_watch()
+
     test.delete_node("/brokers/zbroker1")
 
+    test.pubsub_watch()
+
     # clean up
-
-    for num in range(0, 3):
-        test.delete_node(f"/brokers/zbroker{num}")
-        test.delete_node(f"/zsub{num}")
-        test.delete_node(f"/zpub{num}")
-
-    test.delete_node("/brokers")
-
+    test.clean_up(3)
     test.stop_kazoo()
