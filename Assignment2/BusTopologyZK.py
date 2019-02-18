@@ -91,4 +91,4 @@ class BusTopology(Topo):
             self.addLink(localSwitchList[num], busSwitchList[num//2])
 
 
-topos = { 'bustopo': ( lambda: BusTopology(3, 3, 3) ) }
+topos = { 'bustopoZK': ( lambda: BusTopology(3, 2, 2) ) }
