@@ -2,6 +2,7 @@ import zmq
 import csv
 import time
 import socket
+from kazoo.client import KazooClient
 
 class ZMQ_publihser():
 
@@ -13,6 +14,9 @@ class ZMQ_publihser():
             self.topic = topic
             self.context = zmq.Context()
             self.socket = self.context.socket(zmq.PUB)
+            self.path = '/brokers/'
+            self.zk_object = KazooClient(hosts='127.0.0.1:2181')
+            self.zk_object.start()
             self.register_pub()
             self.publish()
         except Exception as e:
