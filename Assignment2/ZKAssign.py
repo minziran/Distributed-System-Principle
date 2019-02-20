@@ -36,21 +36,27 @@ class ZKMidware(object):
 
     def create_brokers(self, _num: int = 3):
         for i in range(_num):
+            broker_IP = str()
+            broker_port = str()
             path = self.brokers_path + "/" + f"zbroker{i}"
-            data = f"zbroker{i}"
+            data = f"zbroker{i}" + "," + broker_IP + "," + broker_port
             self.create_nodes(path, data)
             self.broker_num += 1
 
     def create_pubs(self, _num: int = 3):
         for i in range(_num):
+            pub_IP = str()
+            pub_port = str()
             path = self.pub_path + f"zpub{i}"
-            data = f"zpub{i}"
+            data = f"zpub{i}" + "," + pub_IP + "," + pub_port
             self.create_nodes(path, data)
 
     def create_subs(self, _num: int = 3):
         for i in range(_num):
+            sub_IP = str()
+            sub_port = str()
             path = self.sub_path + f"zsub{i}"
-            data = f"zsub{i}"
+            data = f"zsub{i}" + "," + sub_IP + "," + sub_port
             self.create_nodes(path, data)
 
     def create_nodes(self, path: str = "/test_znode", data: str = None):
