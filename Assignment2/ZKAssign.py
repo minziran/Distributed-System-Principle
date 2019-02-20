@@ -3,6 +3,10 @@ CS 6381 Assignment 2
 Author: Team 2
 Regulation in this file:
 All binary are encoded in utf-8
+
+Description:
+A class to create znodes for publishers and subscribers and brokers
+
 Naming Rules:
 
 All methods and fields names are underscore-seperated
@@ -16,7 +20,7 @@ from typing import List
 logging.basicConfig()
 
 
-class ZKAssigment(object):
+class ZKMidware(object):
     def __init__(self):
         self.zk = KazooClient()
         self.brokers_path: str = "/brokers"
@@ -26,6 +30,8 @@ class ZKAssigment(object):
         self.pub_num: int = 0
         self.sub_num = 0
         self.election = None
+
+    def start_zk(self):
         self.zk.start()
 
     def create_brokers(self, _num: int = 3):
@@ -113,7 +119,8 @@ class ZKAssigment(object):
 
 
 if __name__ == "__main__":
-    test = ZKAssigment()
+    test = ZKMidware()
+    test.start_zk();
     test.create_brokers(3)
 
     test.create_pubs(3)
