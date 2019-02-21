@@ -58,6 +58,7 @@ class ZMQ_subscriber():
                 print('===Lost connection===')
             elif self.isConnected is False:
                 self.leader_address = data.decode("utf-8")
+                self.socket = None
                 self.register_sub()
 
 
