@@ -29,6 +29,7 @@ class ZKMidware(object):
         self.broker_num: int = 0
         self.pub_num: int = 0
         self.sub_num = 0
+        self.broker_dict = dict()
         self.election = None
 
     def start_zk(self):
@@ -82,6 +83,23 @@ class ZKMidware(object):
             print("Znode at " + path + " is already deleted!\n")
         else:
             print("Znode at " + path + " does not exist\n")
+
+    # def broker_election(self):
+    #     self.election = self.zk.Election(self.brokers_path + "/", "brokerLeader")
+    #     leaderList: List[str] = self.election.contenders()
+    #     newLeader: str = leaderList[-1]
+    #
+    #     # new leader's path
+    #     leaderPath = self.brokers_path + "/" + newLeader
+    #
+    #     # set the data to the /brokers znode
+    #     newLeaderData = newLeader + newLeaderIP + newLeaderPort
+    #     self.zk.set(self.brokers_path, newLeaderdata.encode("utf-8"))
+    #     print(self.zk.get(self.brokers_path)[0].decode("utf-8") + " becomes the new leader")
+
+
+
+
 
     # A method for broker watching. If one of the broker dies,
     # elect a new leader broker
