@@ -36,7 +36,7 @@ class ZMQ_publihser():
     def publish(self):
         while True:
 
-            @self.zk_objcet.DataWatch(self.path)
+            @self.zk_object.DataWatch(self.path)
             def watch_node(bData, event):
                 if event != None:
                         print(event.type)
