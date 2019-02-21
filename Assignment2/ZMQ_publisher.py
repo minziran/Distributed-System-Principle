@@ -37,7 +37,7 @@ class ZMQ_publihser():
         while True:
 
             @self.zk_objcet.DataWatch(self.path)
-            def watch_node(data, stat, event):
+            def watch_node(bData, event):
                 if event != None:
                         print(event.type)
                         if (event.type == "CHANGED"): #reconnect once the election happend, change to the new leader
@@ -48,7 +48,7 @@ class ZMQ_publihser():
                             self.socket = self.context.socket(zmq.PUB)
 
                             # Connet to the broker
-                            data, stat = self.zk_object.get(self.path) 
+                            bData = self.zk_object.get(self.path) 
                             address = data.split(",")
                             self.connect_addr = "tcp://" + self.broker + ":"+ address[0]
                             print(self.connect_addr)
