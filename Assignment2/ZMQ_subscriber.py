@@ -58,6 +58,7 @@ class ZMQ_subscriber():
                 print('===Lost connection===')
             elif self.isConnected is False:
                 self.leader_address = data.decode("utf-8")
+                self.socket = None
                 self.register_sub()
 
 
@@ -78,6 +79,7 @@ class ZMQ_subscriber():
 
         while True:
             print('In notify')
+            print('Broker IP', self.broker_IP)
             msg = self.socket.recv_string()
             print(msg)
             temp = msg.split(' ', 1)
