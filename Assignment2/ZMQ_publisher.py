@@ -2,23 +2,27 @@ import zmq
 import csv
 import time
 import socket
-from kazoo.client import KazooClient
+from kazoo.client import *
 
 class ZMQ_publihser():
 
-    def __init__(self,broker_IP,topic):
+    def __init__(self,server_IP,pub_ID,topic):
 
         try:
+            self.ID =pub_ID
             self.broker_Port = '5556'
-            self.broker_IP = broker_IP
+            self.broker_IP = None
             self.topic = topic
-            self.context = zmq.Context()
-            self.socket = self.context.socket(zmq.PUB)
-            self.path = '/brokers'
-            self.zk_object = KazooClient(hosts='127.0.0.1:2181')
-            self.zk_object.start()
-            self.register_pub()
-            self.publish()
+
+            self.isConnected = False
+            self.server_address = server_IP + ':2181'
+            self.zk_node = KazooClient(hosts=self.server_address)
+
+            self.topic_list = topic.split(' ')
+            self.context = None
+            self.socket = None
+            self.create_ZKCli()
+
         except Exception as e:
             print(e)
             print("bring down zmq publisher")
@@ -27,41 +31,54 @@ class ZMQ_publihser():
             self.socket.close()
             self.context.term()
 
+
+    def create_ZKCli(self):
+
+        if self.zk_node.state != KazooState.CONNECTED:
+            self.zk_node.start()
+        while self.zk_node.state != KazooState.CONNECTED:
+            pass
+
+        znode_path = '/Publishers/' + str(self.ID)
+        self.zk_node.create(path=znode_path, value=str(self.ID).encode('utf-8'), ephemeral=True, makepath=True)
+        while self.zk_node.exists(znode_path) is None:
+            pass
+
+        leader_path = '/Leader'
+        while self.zk_node.exists(leader_path) is None:
+            pass
+        data, state = self.zk_node.get(leader_path)
+        self.broker_IP = data.decode("utf-8")
+
+        @self.zk_node.DataWatch(path=leader_path)
+        def watch_leader(data, state):
+            if state is None:
+                self.isConnected = False
+                print('===Lost connection===')
+            elif self.isConnected is False:
+                self.leader_address = data.decode("utf-8")
+                self.register_pub()
+
+
     def register_pub(self):
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.PUB)
         addr = "tcp://" + self.broker_IP + ":" + self.broker_Port
         self.socket.connect(addr)
         print("===Already Register Publisher===")
-
+        self.publish()
 
     def publish(self):
         while True:
 
-            @self.zk_object.DataWatch(self.path)
-            def watch_node(bData, event):
-                if event != None:
-                        print(event.type)
-                        if (event.type == "CHANGED"): #reconnect once the election happend, change to the new leader
-                            self.socket.close()
-                            self.context.term()
-                            time.sleep(2)
-                            self.context = zmq.Context()
-                            self.socket = self.context.socket(zmq.PUB)
-
-                            # Connet to the broker
-                            bData = self.zk_object.get(self.path) 
-                            address = data.split(",")
-                            self.connect_addr = "tcp://" + self.broker + ":"+ address[0]
-                            print(self.connect_addr)
-                            self.socket.connect(self.connect_addr)
-            
             with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for row in spamreader:
-                    print(', '.join(row))
                     self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + ', '.join(row))
+                    print(', '.join(row))
                     time.sleep(3)
 
 
 
 if __name__ == '__main__':
-    ZMQ_publihser('localhost','Lights')
+    ZMQ_publihser('localhost',1,'Lights')
