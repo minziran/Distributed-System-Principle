@@ -2,6 +2,7 @@ import zmq
 import csv
 import time
 import socket
+import sys
 from kazoo.client import *
 
 class ZMQ_publihser():
@@ -81,4 +82,5 @@ class ZMQ_publihser():
 
 
 if __name__ == '__main__':
-    ZMQ_publihser('localhost',1,'Lights')
+
+    ZMQ_publihser('localhost', int(sys.argv[1]),sys.argv[2])

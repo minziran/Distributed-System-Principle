@@ -105,5 +105,5 @@ class ZMQ_broker:
 
 if __name__ == '__main__':
 
-    ZMQ_broker(1, 'localhost', 'localhost')
-    ZMQ_broker(sys.arg[2], 'localhost', '10.0.0.2')
+    ZMQ_broker(int(sys.argv[1]), 'localhost', sys.argv[2])
+    # ZMQ_broker(sys.arg[2], 'localhost', '10.0.0.2')
