@@ -83,4 +83,4 @@ class ZMQ_publihser():
 
 if __name__ == '__main__':
 
-    ZMQ_publihser('localhost', int(sys.argv[1]),sys.argv[2])
+    ZMQ_publihser(sys.argv[1], int(sys.argv[2]),sys.argv[3])

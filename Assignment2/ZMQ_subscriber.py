@@ -94,6 +94,6 @@ class ZMQ_subscriber():
 
 if __name__=="__main__":
 
-    ZMQ_subscriber('localhost', int(sys.argv[1]),sys.argv[2])
+    ZMQ_subscriber(sys.argv[1], int(sys.argv[2]),sys.argv[3])
     # ZMQ_subscriber('localhost', 2, 'Lights Humidity')
 

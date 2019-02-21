@@ -5,7 +5,7 @@ from kazoo.client import *
 
 class ZMQ_broker:
     def __init__(self, id, server_IP, my_IP):
-        # try:
+        try:
             self.ID = id
             self.address = my_IP
             self.publisher_Port = '5556'
@@ -24,14 +24,14 @@ class ZMQ_broker:
 
             # self.events = zmq.device(zmq.FORWARDER, self.frontend, self.backend)
 
-        # except Exception as e:
-        #     print(e)
-        #     print("bring down zmq device")
-        # finally:
-        #     pass
-        #     self.frontend.close()
-        #     self.backend.close()
-        #     self.context.term()
+        except Exception as e:
+            print(e)
+            print("bring down zmq device")
+        finally:
+            pass
+            self.frontend.close()
+            self.backend.close()
+            self.context.term()
 
     def start_broker(self):
         self.context = zmq.Context(1)
@@ -105,5 +105,5 @@ class ZMQ_broker:
 
 if __name__ == '__main__':
 
-    ZMQ_broker(int(sys.argv[1]), 'localhost', sys.argv[2])
+    ZMQ_broker(int(sys.argv[1]), sys.argv[2], sys.argv[3])
     # ZMQ_broker(sys.arg[2], 'localhost', '10.0.0.2')
