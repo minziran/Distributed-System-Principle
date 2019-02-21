@@ -44,7 +44,7 @@ class StarTopology(Topo):
         index = 2
 
         for num in range(1, _pubNum):
-            brokerName = "brokers" + str(index)
+            brokerName = "broker" + str(index)
             hostList.append(self.addHost(brokerName))
             index += 1
 
