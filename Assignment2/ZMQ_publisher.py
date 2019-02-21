@@ -50,9 +50,9 @@ class ZMQ_publihser():
                             # Connet to the broker
                             data, stat = self.zk_object.get(self.path) 
                             address = data.split(",")
-                            self.connect_str = "tcp://" + self.broker + ":"+ address[0]
-                            print(self.connect_str)
-                            self.socket.connect(self.connect_str)
+                            self.connect_addr = "tcp://" + self.broker + ":"+ address[0]
+                            print(self.connect_addr)
+                            self.socket.connect(self.connect_addr)
             
             with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
