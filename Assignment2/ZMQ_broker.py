@@ -1,11 +1,14 @@
+import random
+
 import zmq
 import sys
 import time
 from kazoo.client import *
+from kazoo.exceptions import CancelledError
 
 class ZMQ_broker:
     def __init__(self, id, server_IP, my_IP):
-        try:
+        # try:
             self.ID = id
             self.address = my_IP
             self.publisher_Port = '5556'
@@ -24,14 +27,14 @@ class ZMQ_broker:
 
             # self.events = zmq.device(zmq.FORWARDER, self.frontend, self.backend)
 
-        except Exception as e:
-            print(e)
-            print("bring down zmq device")
-        finally:
-            pass
-            self.frontend.close()
-            self.backend.close()
-            self.context.term()
+        # except Exception as e:
+        #     print(e)
+        #     print("bring down zmq device")
+        # finally:
+        #     pass
+        #     self.frontend.close()
+        #     self.backend.close()
+        #     self.context.term()
 
     def start_broker(self):
         self.context = zmq.Context(1)
@@ -51,6 +54,8 @@ class ZMQ_broker:
 
     def create_ZKCli(self):
 
+        print("In Create ZKCli")
+
         if self.zk_node.state != KazooState.CONNECTED:
             self.zk_node.start()
         while self.zk_node.state != KazooState.CONNECTED:
@@ -62,7 +67,9 @@ class ZMQ_broker:
             pass
 
         my_path = '/Brokers/' + str(self.ID) #ID int
-        self.zk_node.create(path=my_path, value=b'', ephemeral=True, makepath=True)
+
+        if self.zk_node.exists(my_path) is None:
+            self.zk_node.create(path=my_path, value=b'', ephemeral=True, makepath=True)
         while self.zk_node.exists(my_path) is None:
             pass
 
@@ -80,6 +87,7 @@ class ZMQ_broker:
 
 
     def win_election(self):
+        print("In win election")
         leader_path = '/Leader'
         if self.zk_node.exists(path=leader_path) is None:
             self.zk_node.create(leader_path, value=self.address.encode('utf-8'), ephemeral=True, makepath=True)
@@ -90,16 +98,26 @@ class ZMQ_broker:
         self.start_broker()
 
     def watch_mode(self):
-
+        print("In watch mode")
         election_path = '/Brokers/'
         leader_path = '/Leader'
 
         @self.zk_node.DataWatch(path=leader_path)
         def watch_leader(data, state):
-            if self.zk_node.exists(path=leader_path) is None:
-                time.sleep(5)
-                election = self.zk_node.Election(election_path, self.ID)
-                election.run(self.win_election)
+            print("In watch leader")
+            while True:
+                if self.zk_node.exists(path=leader_path) is None:
+                    # print("In if none")
+                    time.sleep(random.randint(0, 3))
+                    if self.zk_node.exists(path=leader_path) is None:
+                        print("1")
+                        election = self.zk_node.Election(election_path, self.ID)
+                        print(election.lock.contenders())
+                        election.run(self.win_election)
+                        if self.leader_flag == True:
+                            election.lock.cancel()
+                    else:
+                        break
 
 
 
