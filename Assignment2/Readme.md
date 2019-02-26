@@ -7,7 +7,7 @@
 **Abstract:**
 
 In this assignment, a pub/sub network is established via Mininet and ZeroMQ. 
-Zookeeper is utilized to manage broker nodes. As assignment 1,
+Zookeeper is utilized to manage broker nodes. As in assignment 1,
 two topologies, namely star topology and bus topology, are implemented but there are three broker nodes (it can be more by set the broker node number). 
 Multiple publishers and subscribers with various topics can be added into or removed from the network. 
 Finally, end-to-end measurements are carried out and the time difference is measured.
@@ -25,7 +25,7 @@ ZooKeeper was a sub-project of Hadoop but is now a top-level Apache project in i
 ZooKeeper's architecture supports high availability through redundant services [2].
 
 In this assignment, zookeeper is used to coordinate the broker nodes and carry out the leader election 
-when one of brokers is disconnected. In the non-broker mode, the zookeeper's watch mechanism is utilized for 
+when one of the brokers is disconnected. In the non-broker mode, the zookeeper's watch mechanism is utilized for 
 subscribers to obtain data from publishers.
 
 **Create Network Topologies**
@@ -54,7 +54,7 @@ The command to construct a star topology with broker is:
 
 ***Zookeeper***
 
-Zookeeper is embeded inside the python scripts, namely ZMQ_broker.py, ZMQ_publisher.py, ZMQ_subscriber.py 
+Zookeeper is embedded inside the python scripts, namely ZMQ_broker.py, ZMQ_publisher.py, ZMQ_subscriber.py 
 They are executed in the command line interface. The version of zookeeper used in this assignment is kazoo 2.6.1.
 
 **Testing Procedure**
@@ -68,7 +68,7 @@ First we use Mininet to create a topology. The command can be found above. Here 
 
 ##### Fig 1 A Star Topology in Mininet
 
-Before testing, we need to start the zookeeper server first. We xterm the first broker, broker1. 
+Before testing, we need to start the zookeeper server first. We xterm into the first broker, broker1. 
 Then we change the directory to the _bin/_ folder of zookeeper (in this case, it is at ~/Documents).
 Use command:
 
@@ -97,10 +97,10 @@ First we run the scripts on three brokers as shown in Fig 3. The format is as fo
 
 ##### Fig 3 Start the Zookeepers
 
-We can see that broker1 becomes the leader broker and broker2 and broker3 is watching.
+We can see that broker1 becomes the leader broker and broker2 and broker3 are watching.
 Then we can start the publishers and subscribers.
 
-xterm all publishers and subscribers. The command format for publishers is 
+xterm into all publishers and subscribers. The command format for publishers is 
 
 
  ```bash 
@@ -124,7 +124,7 @@ xterm all publishers and subscribers. The command format for publishers is
 
 ***Broker Election***
 
-One of signifocant features of zookeeper is its election mechanism. The result is illustrated in Fig 5.
+One of significant features of zookeeper is its election mechanism. The result is illustrated in Fig 5.
 
   ![brokerElectionBM](./Pictures/brokerElection.jpg)
 
@@ -132,17 +132,17 @@ One of signifocant features of zookeeper is its election mechanism. The result i
 
 Here, we do DataWatch 
 on the broker leader. If it is down, an election is carried out to select a new leader broker.
-We use keyboard interrupt to terminate broker1, the current leader and
+We used a keyboard interrupt to terminate broker1, the current leader and then
  the new leader broker, broker3 is elected as the new broker. In this case, the data transmission can be continued.
  
 
 
 
 **Effort of Teammates**
-In this assignment, we collaboratively finish all the work. 
+In this assignment, we collaboratively finished all of the work. 
 Ziran is responsible for embedding the kazoo code inside the broker script for star topology with broker and final writeup; 
 Xiaoxing modified the Mininet script for new topologies and
-Robert is for subscriber and dealt with bus topology and writeup.
+Robert modified subscriber, bus topology, and writeup.
 
 **Reference:**
 
