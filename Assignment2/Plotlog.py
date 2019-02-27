@@ -23,21 +23,10 @@ def Plotlog(filename, outputname):
     plt.close()
 
 
+Plotlog('./starTopoZKlog/Subscriber1.log','./starTopoZKlog/STZKSubscriber1.png')
+Plotlog('./starTopoZKlog/Subscriber2.log','./starTopoZKlog/STZKSubscriber2.png')
+Plotlog('./starTopoZKlog/Subscriber3.log','./starTopoZKlog/STZKSubscriber3.png')
 
-
-# Plotlog('./starTopoNBlog/Subscriber1.log','./starTopoNBlogPlot/Subscriber1.png')
-# Plotlog('./starTopoNBlog/Subscriber2.log','./starTopoNBlogPlot/Subscriber2.png')
-# Plotlog('./starTopoNBlog/Subscriber3.log','./starTopoNBlogPlot/Subscriber3.png')
-
-Plotlog('./starTopoZKlog/Subscriber1.log','./starTopoZKlogPlot/Subscriber1.png')
-Plotlog('./starTopoZKlog/Subscriber2.log','./starTopoZKlogPlot/Subscriber2.png')
-Plotlog('./starTopoZKlog/Subscriber3.log','./starTopoZKlogPlot/Subscriber3.png')
-
-# Plotlog('./busTopoNBlog/Subscriber1.log','./busTopoNBlogPlot/Subscriber1.png')
-# Plotlog('./busTopoNBlog/Subscriber2.log','./busTopoNBlogPlot/Subscriber2.png')
-# Plotlog('./busTopoNBlog/Subscriber3.log','./busTopoNBlogPlot/Subscriber3.png')
-
-Plotlog('./busTopoZKlog/Subscriber1.log','./busTopologyZKlogPlot/Subscriber1.png')
-Plotlog('./busTopoZKlog/Subscriber2.log','./busTopologyZKlogPlot/Subscriber2.png')
-Plotlog('./busTopoZKlog/Subscriber3.log','./busTopologyZKlogPlot/Subscriber3.png')
-
+Plotlog('./busTopoZKlog/Subscriber1.log','./busTopoZKlog/BTZKSubscriber1.png')
+Plotlog('./busTopoZKlog/Subscriber2.log','./busTopoZKlog/BTZKSubscriber2.png')
+Plotlog('./busTopoZKlog/Subscriber3.log','./busTopoZKlog/BTZKSubscriber3.png')
