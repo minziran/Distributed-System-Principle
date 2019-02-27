@@ -185,13 +185,25 @@ Please try several times for the scripts.
 
 The latency measurement is also carried out in this assignment.
 
+For bus topology, the latency is shown in Fig 8.
 
+ ![busTopoLatency](./Pictures/BTZKSubscriber2.png)
+ ##### Fig 8 The Latency Measurement in Bus Topology
+ 
+ It shows that at first, it suffers a huge latency and later become stable.
+ 
+ For star topology, the latency is shown in Fig 9.
+ 
+ ![starTopoLatency](./Pictures/STZKSubscriber2.png)
+ ##### Fig 9 The Latency Measurement in Bus Topology
+
+Its latency pattern is similar to the bus topology.
 
 **Effort of Teammates**
 In this assignment, we collaboratively finish all the work. 
-Ziran is responsible for embedding the kazoo code inside the broker script for star topology with broker and final writeup; 
-Xiaoxing modified the Mininet script for new topologies and
-Robert is for subscriber and dealt with bus topology and writeup.
+Ziran is responsible for embedding the kazoo code inside the broker script and set up watch mechanism for znodes.
+Xiaoxing modified the Mininet script for new topologies and set up zookeeper file system.
+Robert is for childrenWatch mechanism testing and latency measurement.
 
 **Reference:**
 
