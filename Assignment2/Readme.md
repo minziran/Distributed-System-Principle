@@ -1,13 +1,13 @@
 
-## Distributed System Principle Assignment 2
+##Distributed System Principle Assignment 2
 
-#### Team 2
+####Team 2
 
 *****
 **Abstract:**
 
 In this assignment, a pub/sub network is established via Mininet and ZeroMQ. 
-Zookeeper is utilized to manage broker nodes. As in assignment 1,
+Zookeeper is utilized to manage broker nodes. As assignment 1,
 two topologies, namely star topology and bus topology, are implemented but there are three broker nodes (it can be more by set the broker node number). 
 Multiple publishers and subscribers with various topics can be added into or removed from the network. 
 Finally, end-to-end measurements are carried out and the time difference is measured.
@@ -25,7 +25,7 @@ ZooKeeper was a sub-project of Hadoop but is now a top-level Apache project in i
 ZooKeeper's architecture supports high availability through redundant services [2].
 
 In this assignment, zookeeper is used to coordinate the broker nodes and carry out the leader election 
-when one of the brokers is disconnected. In the non-broker mode, the zookeeper's watch mechanism is utilized for 
+when one of brokers is disconnected. In the non-broker mode, the zookeeper's watch mechanism is utilized for 
 subscribers to obtain data from publishers.
 
 **Create Network Topologies**
@@ -54,7 +54,7 @@ The command to construct a star topology with broker is:
 
 ***Zookeeper***
 
-Zookeeper is embedded inside the python scripts, namely ZMQ_broker.py, ZMQ_publisher.py, ZMQ_subscriber.py 
+Zookeeper is embeded inside the python scripts, namely ZMQ_broker.py, ZMQ_publisher.py, ZMQ_subscriber.py 
 They are executed in the command line interface. The version of zookeeper used in this assignment is kazoo 2.6.1.
 
 **Testing Procedure**
@@ -68,7 +68,7 @@ First we use Mininet to create a topology. The command can be found above. Here 
 
 ##### Fig 1 A Star Topology in Mininet
 
-Before testing, we need to start the zookeeper server first. We xterm into the first broker, broker1. 
+Before testing, we need to start the zookeeper server first. We xterm the first broker, broker1. 
 Then we change the directory to the _bin/_ folder of zookeeper (in this case, it is at ~/Documents).
 Use command:
 
@@ -97,10 +97,10 @@ First we run the scripts on three brokers as shown in Fig 3. The format is as fo
 
 ##### Fig 3 Start the Zookeepers
 
-We can see that broker1 becomes the leader broker and broker2 and broker3 are watching.
+We can see that broker1 becomes the leader broker and broker2 and broker3 is watching.
 Then we can start the publishers and subscribers.
 
-xterm into all publishers and subscribers. The command format for publishers is 
+xterm all publishers and subscribers. The command format for publishers is 
 
 
  ```bash 
@@ -124,7 +124,7 @@ xterm into all publishers and subscribers. The command format for publishers is
 
 ***Broker Election***
 
-One of significant features of zookeeper is its election mechanism. The result is illustrated in Fig 5.
+One of signifocant features of zookeeper is its election mechanism. The result is illustrated in Fig 5.
 
   ![brokerElectionBM](./Pictures/brokerElection.jpg)
 
@@ -132,17 +132,66 @@ One of significant features of zookeeper is its election mechanism. The result i
 
 Here, we do DataWatch 
 on the broker leader. If it is down, an election is carried out to select a new leader broker.
-We used a keyboard interrupt to terminate broker1, the current leader and then
+We use keyboard interrupt to terminate broker1, the current leader and
  the new leader broker, broker3 is elected as the new broker. In this case, the data transmission can be continued.
  
+**Non-Broker Mode**
+
+To build a non-broker mode network, we use BusTopologyNB.py and StarTopologyNB.py from assignment 1.
+The command to build a non-broker bus-topology network is:
+
+ ```bash 
+     sudo mn --custom BusTopologyNB.py --topo bustopoNB
+ ```
+
+For non-broker star-topology network, the command is:
+ ```bash 
+     sudo mn --custom StarTopologyNB.py --topo startopoNB
+ ```
+
+Then we xterm each publisher and subscriber. In pub1, we first start the zookeeper server in pub1.
+
+We change the directory to the _/bin/_ folder of zookeeper (in this case, it is at ~/Documents).
+Use command:
+
+ ```bash 
+     ./zkServer.sh start
+ ```
+
+Then we navigate the directory back and run the publisher's script. The publisher code for non-broker mode is ZMQ_publisher_NB.py
+
+The command is:
+
+ ```bash 
+     sudo python3 ZMQ_publisher_NB <zookeeper IP> <publisher ID> <Topic> <its own IP>
+ ```
+ 
+ The running publishers are shown in Fig 6.
+ ![publishersNB](./Pictures/pubsBusNB.jpg)
+
+##### Fig 6 The Running Publishers in non-broker mode
+
+
+Then we started all the subscribers (shown in Fig 7).
+
+***Note:*** the network may require some time to get connected. 
+Please try several times for the scripts.
+
+ ![subscribersNB](./Pictures/subBusNB.jpg)
+
+##### Fig 7 The Running Subscribers in non-broker mode
+
+**Latency Measurement**
+
+The latency measurement is also carried out in this assignment.
 
 
 
 **Effort of Teammates**
-In this assignment, we collaboratively finished all of the work. 
+In this assignment, we collaboratively finish all the work. 
 Ziran is responsible for embedding the kazoo code inside the broker script for star topology with broker and final writeup; 
 Xiaoxing modified the Mininet script for new topologies and
-Robert modified subscriber, bus topology, and writeup.
+Robert is for subscriber and dealt with bus topology and writeup.
 
 **Reference:**
 
