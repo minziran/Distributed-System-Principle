@@ -1,0 +1,46 @@
+INFO:kazoo.client:Connecting to 10.0.0.1:2181, use_ssl: False
+DEBUG:kazoo.client:Sending request(xid=None): Connect(protocol_version=0, last_zxid_seen=0, time_out=10000, session_id=0, passwd=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', read_only=None)
+INFO:kazoo.client:Zookeeper connection established, state: CONNECTED
+DEBUG:kazoo.client:Sending request(xid=1): Create(path='/Subscribers/3', data=b'', acl=[ACL(perms=31, acl_list=['ALL'], id=Id(scheme='world', id='anyone'))], flags=1)
+DEBUG:kazoo.client:Received response(xid=1): '/Subscribers/3'
+DEBUG:kazoo.client:Sending request(xid=2): Exists(path='/Subscribers/3', watcher=None)
+DEBUG:kazoo.client:Received response(xid=2): ZnodeStat(czxid=124, mzxid=124, ctime=1551234279164, mtime=1551234279164, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769163, dataLength=0, numChildren=0, pzxid=124)
+DEBUG:kazoo.client:Sending request(xid=3): Exists(path='/Leader', watcher=None)
+DEBUG:kazoo.client:Received response(xid=3): ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99)
+DEBUG:kazoo.client:Sending request(xid=4): GetData(path='/Leader', watcher=None)
+DEBUG:kazoo.client:Received response(xid=4): (b'10.0.0.1', ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99))
+DEBUG:kazoo.client:Sending request(xid=5): GetData(path='/Leader', watcher=<bound method DataWatch._watcher of <kazoo.recipe.watchers.DataWatch object at 0x7f0d4dbb7940>>)
+DEBUG:kazoo.client:Received response(xid=5): (b'10.0.0.1', ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99))
+INFO:root:1551234279.8375018 0.0005717277526855469
+INFO:root:1551234282.8410623 0.0008985996246337891
+INFO:root:1551234285.8435724 0.0004477500915527344
+INFO:root:1551234288.8474681 0.0011782646179199219
+INFO:root:1551234291.849995 0.0004951953887939453
+INFO:root:1551234294.8516598 0.0004942417144775391
+INFO:root:1551234297.855065 0.0005514621734619141
+INFO:root:1551234300.85589 0.0007741451263427734
+INFO:root:1551234303.8594682 0.0011644363403320312
+INFO:root:1551234306.859654 0.0004374980926513672
+INFO:root:1551234309.8637154 0.0008044242858886719
+INFO:root:1551234312.869587 0.0031130313873291016
+INFO:root:1551234315.868933 0.0017285346984863281
+INFO:root:1551234318.8729918 0.002614736557006836
+INFO:root:1551234321.8748055 0.0021657943725585938
+INFO:root:1551234324.878232 0.002983570098876953
+INFO:root:1551234327.8792093 0.0006761550903320312
+INFO:root:1551234330.8802361 0.0011248588562011719
+INFO:root:1551234333.8847036 0.0023565292358398438
+INFO:root:1551234336.887916 0.002354145050048828
+INFO:root:1551234339.8875704 0.0004394054412841797
+INFO:root:1551234342.890506 0.0012934207916259766
+INFO:root:1551234345.891631 0.0004343986511230469
+INFO:root:1551234348.8958206 0.0013620853424072266
+INFO:root:1551234351.8984797 0.0007658004760742188
+INFO:root:1551234354.8997188 0.00048661231994628906
+INFO:root:1551234357.9049091 0.002382516860961914
+INFO:root:1551234360.90435 0.0010142326354980469
+INFO:root:1551234363.9080887 0.0012433528900146484
+INFO:root:1551234366.9144673 0.003573894500732422
+INFO:root:1551234369.9165425 0.0014247894287109375
+INFO:root:1551234372.9188704 0.0005207061767578125
+INFO:root:1551234375.92041 0.0012772083282470703
