@@ -1,16 +1,3 @@
-INFO:kazoo.client:Connecting to 10.0.0.1:2181, use_ssl: False
-DEBUG:kazoo.client:Sending request(xid=None): Connect(protocol_version=0, last_zxid_seen=0, time_out=10000, session_id=0, passwd=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', read_only=None)
-INFO:kazoo.client:Zookeeper connection established, state: CONNECTED
-DEBUG:kazoo.client:Sending request(xid=1): Create(path='/Subscribers/2', data=b'', acl=[ACL(perms=31, acl_list=['ALL'], id=Id(scheme='world', id='anyone'))], flags=1)
-DEBUG:kazoo.client:Received response(xid=1): '/Subscribers/2'
-DEBUG:kazoo.client:Sending request(xid=2): Exists(path='/Subscribers/2', watcher=None)
-DEBUG:kazoo.client:Received response(xid=2): ZnodeStat(czxid=122, mzxid=122, ctime=1551234277384, mtime=1551234277384, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769162, dataLength=0, numChildren=0, pzxid=122)
-DEBUG:kazoo.client:Sending request(xid=3): Exists(path='/Leader', watcher=None)
-DEBUG:kazoo.client:Received response(xid=3): ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99)
-DEBUG:kazoo.client:Sending request(xid=4): GetData(path='/Leader', watcher=None)
-DEBUG:kazoo.client:Received response(xid=4): (b'10.0.0.1', ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99))
-DEBUG:kazoo.client:Sending request(xid=5): GetData(path='/Leader', watcher=<bound method DataWatch._watcher of <kazoo.recipe.watchers.DataWatch object at 0x7f95872aaa58>>)
-DEBUG:kazoo.client:Received response(xid=5): (b'10.0.0.1', ZnodeStat(czxid=99, mzxid=99, ctime=1551233973957, mtime=1551233973957, version=0, cversion=0, aversion=0, ephemeralOwner=72058018334769152, dataLength=8, numChildren=0, pzxid=99))
 INFO:root:1551234277.8288 0.004232168197631836
 INFO:root:1551234280.82778 0.0006592273712158203
 INFO:root:1551234283.830873 0.0005233287811279297
