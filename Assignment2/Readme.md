@@ -1,7 +1,7 @@
 
-##Distributed System Principle Assignment 2
+## Distributed System Principle Assignment 2
 
-####Team 2
+#### Team 2
 
 *****
 **Abstract:**
