@@ -8,11 +8,13 @@ import random
 
 
 class ZMQ_subscriber():
-    def __init__(self, server_IP, sub_ID, topic):
+    def __init__(self, server_IP, sub_ID, topic, history):
 
         try:
             logging.basicConfig(filename='Subscriber' + str(sub_ID) + '.log', level=logging.DEBUG)
             self.ID = sub_ID
+            # Number greater than 0 if they want history
+            self.history = history
             self.pub_IP = None
             self.pub_Port = '5556'
             self.isConnected = False
@@ -97,21 +99,26 @@ class ZMQ_subscriber():
         while True:
             print('In notify')
             msg = self.socket.recv_string()
-            print(msg)
-            temp = msg.split(' ', 1)
-            topic = temp[0]
-            temp1 = temp[1]
-            # print(topic)
-            # print(time)
-            # print(value)
-            print(msg)
-            temp = msg.split(' ')
-            info = str(time.time()) + ' ' + str(time.time() - float(temp[1]))
-            logging.info(info)
+            # Update to suppress messages
+            tempOwn = msg.split(' ', 1)
+            if (tempOwn[2] == 1):
+                print(msg)
+                temp = msg.split(' ', 1)
+                topic = temp[0]
+                temp1 = temp[1]
+                # print(topic)
+                # print(time)
+                # print(value)
+                print(msg)
+                temp = msg.split(' ')
+                info = str(time.time()) + ' ' + str(time.time() - float(temp[1]))
+                logging.info(info)
+            else: 
+                pass
 
 
 if __name__=="__main__":
 
-    ZMQ_subscriber(sys.argv[1], int(sys.argv[2]),sys.argv[3])
-    # ZMQ_subscriber('127.0.0.1', 1, 'Lights')
+    ZMQ_subscriber(sys.argv[1], int(sys.argv[2]),sys.argv[3],int(sys.argv[4]))
+    # ZMQ_subscriber('127.0.0.1', 1, 'Lights', 10)
 

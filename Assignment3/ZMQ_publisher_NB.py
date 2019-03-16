@@ -7,11 +7,12 @@ import sys
 
 class ZMQ_publihser_NB():
 
-    def __init__(self,server_IP,pub_ID,topic,my_IP):
+    def __init__(self,server_IP,pub_ID,topic,my_IP,ownership):
 
         try:
             self.ID = pub_ID
             self.topic = topic
+            self.ownership = ownership
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
@@ -93,16 +94,17 @@ class ZMQ_publihser_NB():
         self.publish()
 
     def publish(self):
+    	history = 5
         while True:
             with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for row in spamreader:
-                    self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + ', '.join(row))
+                    self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + self.ownership + history + ', '.join(row))
                     print(', '.join(row))
                     time.sleep(3)
 
 
 
 if __name__ == '__main__':
-    # ZMQ_publihser_NB('127.0.0.1', 1, 'Lights','127.0.0.1')
-    ZMQ_publihser_NB(sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4])
+    # ZMQ_publihser_NB('127.0.0.1', 1, 'Lights','127.0.0.1',1)
+    ZMQ_publihser_NB(sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4], int(sys.argv[5]))
