@@ -18,7 +18,6 @@ class HistoryQueue:
         self.msg_queue.appendleft(_text)
 
 
-
 if __name__ == "__main__":
     test = HistoryQueue(5)
 
