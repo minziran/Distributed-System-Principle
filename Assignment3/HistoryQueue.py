@@ -12,13 +12,13 @@ class HistoryQueue:
         self.msg_queue = deque()
         self.max_size = _maxSize
 
-    def push_message(self, _text):
+    def push_history(self, _text):
         if len(self.msg_queue) == self.max_size:
             self.msg_queue.pop()
 
         self.msg_queue.appendleft(_text)
 
-    def get_message(self, _num=1):
+    def get_history(self, _num=1):
         '''
         A method for get history
         :param _num:
@@ -41,8 +41,8 @@ if __name__ == "__main__":
     test = HistoryQueue(5)
 
     for i in range(0, 20):
-        test.push_message(i)
+        test.push_history(i)
 
     print(list(test.msg_queue))
-    print(list(test.get_message(3)))
-    test.get_message(7)
+    print(list(test.get_history(3)))
+    test.get_history(7)
