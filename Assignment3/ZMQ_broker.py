@@ -5,6 +5,7 @@ import sys
 import time
 from kazoo.client import *
 from kazoo.exceptions import CancelledError
+import HistoryQueue as History
 
 
 class ZMQ_broker:
@@ -79,7 +80,6 @@ class ZMQ_broker:
             self.leader_flag = False
             self.watch_mode()
         else:
-
             self.zk_node.create(leader_path, value=self.address.encode('utf-8'), ephemeral=True, makepath=True)
             while self.zk_node.exists(path=leader_path) is None:
                 pass
@@ -114,7 +114,7 @@ class ZMQ_broker:
                         election = self.zk_node.Election(election_path, self.ID)
                         print(election.lock.contenders())
                         election.run(self.win_election)
-                        if self.leader_flag == True:
+                        if self.leader_flag:
                             election.lock.cancel()
                     else:
                         break
