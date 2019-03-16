@@ -5,12 +5,13 @@ import socket
 import sys
 from kazoo.client import *
 
+
 class ZMQ_publihser():
 
-    def __init__(self,server_IP,pub_ID,topic):
+    def __init__(self, server_IP, pub_ID, topic):
 
         try:
-            self.ID =pub_ID
+            self.ID = pub_ID
             self.broker_Port = '5556'
             self.broker_IP = None
             self.topic = topic
@@ -31,7 +32,6 @@ class ZMQ_publihser():
             pass
             self.socket.close()
             self.context.term()
-
 
     def create_ZKCli(self):
 
@@ -61,7 +61,6 @@ class ZMQ_publihser():
                 self.socket = None
                 self.register_pub()
 
-
     def register_pub(self):
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUB)
@@ -76,12 +75,10 @@ class ZMQ_publihser():
             with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for row in spamreader:
-                    self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + ', '.join(row))
+                    self.socket.send_string(self.topic + " " + str(time.time()) + ' ' + ', '.join(row))
                     print(', '.join(row))
                     time.sleep(3)
 
 
-
 if __name__ == '__main__':
-
-    ZMQ_publihser(sys.argv[1], int(sys.argv[2]),sys.argv[3])
+    ZMQ_publihser(sys.argv[1], int(sys.argv[2]), sys.argv[3])

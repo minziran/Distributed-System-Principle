@@ -5,8 +5,9 @@ import logging
 import time
 from kazoo.client import *
 
+
 class ZMQ_subscriber():
-    def __init__(self, server_IP, sub_ID,topic):
+    def __init__(self, server_IP, sub_ID, topic):
 
         try:
             logging.basicConfig(filename='Subscriber' + str(sub_ID) + '.log', level=logging.DEBUG)
@@ -16,8 +17,8 @@ class ZMQ_subscriber():
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
-            print ("===  topics ", topic,'===')
-            self.topic_list  =topic.split(' ')
+            print("===  topics ", topic, '===')
+            self.topic_list = topic.split(' ')
             self.context = None
             self.socket = None
             self.create_ZKCli()
@@ -29,10 +30,6 @@ class ZMQ_subscriber():
             pass
             self.socket.close()
             self.context.term()
-
-
-
-
 
     def create_ZKCli(self):
 
@@ -60,8 +57,6 @@ class ZMQ_subscriber():
                 self.leader_address = data.decode("utf-8")
                 self.socket = None
                 self.register_sub()
-
-
 
     def register_sub(self):
         self.context = zmq.Context()
@@ -94,8 +89,6 @@ class ZMQ_subscriber():
             logging.info(info)
 
 
-if __name__=="__main__":
-
-    ZMQ_subscriber(sys.argv[1], int(sys.argv[2]),sys.argv[3])
+if __name__ == "__main__":
+    ZMQ_subscriber(sys.argv[1], int(sys.argv[2]), sys.argv[3])
     # ZMQ_subscriber('localhost', 2, 'Lights Humidity')
-

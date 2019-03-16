@@ -6,35 +6,36 @@ import time
 from kazoo.client import *
 from kazoo.exceptions import CancelledError
 
+
 class ZMQ_broker:
     def __init__(self, id, server_IP, my_IP):
         # try:
-            self.ID = id
-            self.address = my_IP
-            self.publisher_Port = '5556'
-            self.subscriber_Port = '5557'
-            self.server_address = server_IP + ':2181'
-            self.zk_node = KazooClient(hosts=self.server_address)
-            self.leader_flag = False
+        self.ID = id
+        self.address = my_IP
+        self.publisher_Port = '5556'
+        self.subscriber_Port = '5557'
+        self.server_address = server_IP + ':2181'
+        self.zk_node = KazooClient(hosts=self.server_address)
+        self.leader_flag = False
 
-            self.context = None
+        self.context = None
 
-            self.frontend = None
+        self.frontend = None
 
-            self.backend = None
+        self.backend = None
 
-            self.create_ZKCli()
+        self.create_ZKCli()
 
-            # self.events = zmq.device(zmq.FORWARDER, self.frontend, self.backend)
+        # self.events = zmq.device(zmq.FORWARDER, self.frontend, self.backend)
 
-        # except Exception as e:
-        #     print(e)
-        #     print("bring down zmq device")
-        # finally:
-        #     pass
-        #     self.frontend.close()
-        #     self.backend.close()
-        #     self.context.term()
+    # except Exception as e:
+    #     print(e)
+    #     print("bring down zmq device")
+    # finally:
+    #     pass
+    #     self.frontend.close()
+    #     self.backend.close()
+    #     self.context.term()
 
     def start_broker(self):
         self.context = zmq.Context(1)
@@ -66,7 +67,7 @@ class ZMQ_broker:
         while self.zk_node.exists('/Brokers') is None:
             pass
 
-        my_path = '/Brokers/' + str(self.ID) #ID int
+        my_path = '/Brokers/' + str(self.ID)  # ID int
 
         if self.zk_node.exists(my_path) is None:
             self.zk_node.create(path=my_path, value=b'', ephemeral=True, makepath=True)
@@ -84,7 +85,6 @@ class ZMQ_broker:
                 pass
             self.leader_flag = True
             self.start_broker()
-
 
     def win_election(self):
         print("In win election")
@@ -120,8 +120,6 @@ class ZMQ_broker:
                         break
 
 
-
 if __name__ == '__main__':
-
     ZMQ_broker(int(sys.argv[1]), sys.argv[2], sys.argv[3])
     # ZMQ_broker(sys.arg[2], 'localhost', '10.0.0.2')
