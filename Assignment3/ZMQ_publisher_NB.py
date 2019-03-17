@@ -3,6 +3,7 @@ import zmq
 import csv
 import time
 import sys
+from HistoryQueue import HistoryQueue as Hist
 
 
 class ZMQ_publihser_NB():
@@ -99,7 +100,7 @@ class ZMQ_publihser_NB():
             with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for row in spamreader:
-                    self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + self.ownership + history + ', '.join(row))
+                    self.socket.send_string(self.topic + " " +str(time.time()) + ' ' + self.ownership + Hist(history) + ', '.join(row))
                     print(', '.join(row))
                     time.sleep(3)
 

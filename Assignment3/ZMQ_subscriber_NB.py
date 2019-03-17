@@ -5,6 +5,7 @@ import logging
 import time
 from kazoo.client import *
 import random
+from HistoryQueue import HistoryQueue as Hist
 
 
 class ZMQ_subscriber():
@@ -14,7 +15,7 @@ class ZMQ_subscriber():
             logging.basicConfig(filename='Subscriber' + str(sub_ID) + '.log', level=logging.DEBUG)
             self.ID = sub_ID
             # Number greater than 0 if they want history
-            self.history = history
+            self.history = Hist(history)
             self.pub_IP = None
             self.pub_Port = '5556'
             self.isConnected = False
