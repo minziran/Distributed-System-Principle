@@ -5,13 +5,14 @@ import sys
 import time
 from kazoo.client import *
 from kazoo.exceptions import CancelledError
-import HistoryQueue as History
+from HistoryQueue import HistoryQueue as History
 
 
 class ZMQ_broker:
-    def __init__(self, id, server_IP, my_IP):
+    def __init__(self, id, server_IP, my_IP, _historySize):
         # try:
         self.ID = id
+        self.history = History(_historySize)
         self.address = my_IP
         self.publisher_Port = '5556'
         self.subscriber_Port = '5557'
@@ -26,6 +27,7 @@ class ZMQ_broker:
         self.backend = None
 
         self.create_ZKCli()
+
 
         # self.events = zmq.device(zmq.FORWARDER, self.frontend, self.backend)
 
@@ -121,5 +123,5 @@ class ZMQ_broker:
 
 
 if __name__ == '__main__':
-    ZMQ_broker(int(sys.argv[1]), sys.argv[2], sys.argv[3])
+    ZMQ_broker(int(sys.argv[1]), sys.argv[2], sys.argv[3], sys.argv[4])
     # ZMQ_broker(sys.arg[2], 'localhost', '10.0.0.2')

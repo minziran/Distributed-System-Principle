@@ -21,7 +21,7 @@ class HistoryQueue:
     def get_history(self, _num=1):
         '''
         A method for get history
-        :param _num:
+        :param _num: the number of history need to get
         :return: an iterable
         '''
         # If the buffer is too small
@@ -37,12 +37,12 @@ class HistoryQueue:
         return islice(self.msg_queue, 0, _num)
 
 
-if __name__ == "__main__":
-    test = HistoryQueue(5)
-
-    for i in range(0, 20):
-        test.push_history(i)
-
-    print(list(test.msg_queue))
-    print(list(test.get_history(3)))
-    test.get_history(7)
+# if __name__ == "__main__":
+#     test = HistoryQueue(5)
+#
+#     for i in range(0, 20):
+#         test.push_history(i)
+#
+#     print(list(test.msg_queue))
+#     print(list(test.get_history(3)))
+#     test.get_history(7)
