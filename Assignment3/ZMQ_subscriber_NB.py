@@ -103,6 +103,7 @@ class ZMQ_subscriber():
             # Update to suppress messages
             tempOwn = msg.split(' ', 1)
             if (tempOwn[2] == 1):
+                print(tempOwn[3])
                 print(msg)
                 temp = msg.split(' ', 1)
                 topic = temp[0]
