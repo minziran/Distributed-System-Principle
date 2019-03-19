@@ -52,22 +52,26 @@ class HistoryQueue:
 
     def get_history(self, _topic, _history_num):
         if not(_topic in self.topic_history):
-            print("No history in this topic! \n")
+            print("This topic does not exist! \n")
             return
         else:
-            return list(self.topic_history[_topic].get_message(_history_num))
+            if self.topic_history[_topic].get_message(_history_num):
+                return list(self.topic_history[_topic].get_message(_history_num))
+            else:
+                print("There is no history for this topic!\n")
+                return None
 
     def get_all_history(self):
-        result = str()
+        result = list()
         for key in self.topic_history.keys():
             localHis = ",".join(list(self.topic_history[key].msg_queue))
-            result = result + key + "#" + localHis + "&"
+            result.append(key + "#" + localHis)
 
-        return result
+        return '&'.join(result)
 
     def input_all_history(self, history_str):
         if history_str is None:
-            print("the history is empty")
+            print("The history input is empty")
             return
 
         # Clean the dictionary
@@ -80,6 +84,7 @@ class HistoryQueue:
             self.topic_history[topic] = subHistory(self.max_size)
 
             content = localHis[1].split(',')
+            content.reverse()
             for element in content:
                 self.topic_history[topic].push_message(element)
 
@@ -88,6 +93,19 @@ if __name__ == "__main__":
     test = HistoryQueue(5)
 
     test.push_history('1', '2')
+    test.push_history('2', 'abc')
+    test.push_history('3', '122323')
+    test.push_history('3', 'qwere')
     print(list(test.get_history('1', 1)))
     test.get_history('1', 3)
     test.get_history('2', 1)
+    print(test.get_history('3', 2))
+
+    mystr = test.get_all_history()
+    print(mystr)
+    test.input_all_history(mystr)
+
+    print(list(test.get_history('1', 1)))
+    test.get_history('1', 3)
+    test.get_history('2', 1)
+    print(test.get_history('3', 2))
