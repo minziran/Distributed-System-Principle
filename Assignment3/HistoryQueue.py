@@ -55,7 +55,33 @@ class HistoryQueue:
             print("No history in this topic! \n")
             return
         else:
-            return self.topic_history[_topic].get_message(_history_num)
+            return list(self.topic_history[_topic].get_message(_history_num))
+
+    def get_all_history(self):
+        result = str()
+        for key in self.topic_history.keys():
+            localHis = ",".join(list(self.topic_history[key].msg_queue))
+            result = result + key + "#" + localHis + "&"
+
+        return result
+
+    def input_all_history(self, history_str):
+        if history_str is None:
+            print("the history is empty")
+            return
+
+        # Clean the dictionary
+        self.topic_history.clear()
+
+        historyList = history_str.split('&')
+        for item in historyList:
+            localHis = item.split('#')
+            topic = localHis[0]
+            self.topic_history[topic] = subHistory(self.max_size)
+
+            content = localHis[1].split(',')
+            for element in content:
+                self.topic_history[topic].push_message(element)
 
 
 if __name__ == "__main__":
