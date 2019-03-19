@@ -5,22 +5,21 @@ import socket
 import sys
 from kazoo.client import *
 
-
 class ZMQ_publihser():
 
-    def __init__(self, server_IP, pub_ID, topic):
+    def __init__(self, server_IP, pub_ID, topic, ownership):
 
         try:
-            self.ID = pub_ID
+            self.ID =pub_ID
             self.broker_Port = '5556'
             self.broker_IP = None
-            self.topic = topic
-
+        
+            self.ownership = ownership
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
 
-            self.topic_list = topic.split(' ')
+            self.topic_list = topic.split(',')
             self.context = None
             self.socket = None
             self.create_ZKCli()
@@ -32,6 +31,7 @@ class ZMQ_publihser():
             pass
             self.socket.close()
             self.context.term()
+
 
     def create_ZKCli(self):
 
@@ -61,7 +61,10 @@ class ZMQ_publihser():
                 self.socket = None
                 self.register_pub()
 
+
+
     def register_pub(self):
+        print("In register_pub")
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUB)
         addr = "tcp://" + self.broker_IP + ":" + self.broker_Port
@@ -70,15 +73,21 @@ class ZMQ_publihser():
         self.publish()
 
     def publish(self):
-        while True:
+        print(self.topic_list)
+        for key in self.topic_list:
+            while True:
 
-            with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-                for row in spamreader:
-                    self.socket.send_string(self.topic + " " + str(time.time()) + ' ' + ', '.join(row))
-                    print(', '.join(row))
-                    time.sleep(3)
+                with open('./test_topic_files/' + key + '.csv', newline='') as csvfile:
+                    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+                    for row in spamreader:
+                        self.socket.send_string(key + " " + self.ownership + ' ' + str(self.ID) +' ' + str(time.time()) + ' ' + ', '.join(row))
+                        print(', '.join(row))
+                        time.sleep(3)
+
 
 
 if __name__ == '__main__':
-    ZMQ_publihser(sys.argv[1], int(sys.argv[2]), sys.argv[3])
+
+    ZMQ_publihser(sys.argv[1], int(sys.argv[2]),sys.argv[3],sys.argv[4])
+    # server_IP, pub_ID, topic, ownership
+    #ZMQ_publihser('127.0.0.1', 1, 'Lights', 1)
