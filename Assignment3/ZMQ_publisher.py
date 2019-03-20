@@ -14,12 +14,13 @@ class ZMQ_publihser():
             self.broker_Port = '5556'
             self.broker_IP = None
         
-            self.ownership = ownership
+            self.ownership_list = ownership.split(',')
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
 
             self.topic_list = topic.split(',')
+
             self.context = None
             self.socket = None
             self.create_ZKCli()
@@ -75,13 +76,13 @@ class ZMQ_publihser():
     def publish(self):
         print(self.topic_list)
         for key in self.topic_list:
-            while True:
-
+            # while True:
                 with open('./test_topic_files/' + key + '.csv', newline='') as csvfile:
                     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                     for row in spamreader:
-                        self.socket.send_string(key + " " + self.ownership + ' ' + str(self.ID) +' ' + str(time.time()) + ' ' + ', '.join(row))
-                        print(', '.join(row))
+
+                        self.socket.send_string(key + " " + self.ownership_list[self.topic_list.index(key)] + ' ' + str(time.time())+ ' '+str(self.ID) + ' ' + str(row))
+                        print(key + " " + self.ownership_list[self.topic_list.index(key)] + ' ' + str(time.time())+' ' +str(self.ID) + ' ' + str(row))
                         time.sleep(3)
 
 

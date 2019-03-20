@@ -16,7 +16,7 @@ class ZMQ_subscriber():
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
-            self.history_num = history_num
+            self.history_num_list = history_num.split(',')
             print ("===  topics ", topic,'===')
             self.topic_list  = topic.split(',')
             self.context = None
@@ -60,30 +60,10 @@ class ZMQ_subscriber():
             elif self.isConnected is False:
                 self.leader_address = data.decode("utf-8")
                 self.socket = None
-                self.get_hisory()
+
                 self.register_sub()
 
-    def get_hisory(self):
 
-        try:
-            history_context = zmq.Context()
-
-            history_socket = history_context.socket(zmq.REQ)
-            history_addr = "tcp://" + self.broker_IP + ":" + "5558"
-
-            history_socket.connect(history_addr)
-            request = self.history_num
-            history_socket.send_string(request)
-            print("Sending request ", request)
-            history_msg = history_socket.recv_string()
-            print("Received reply ", history_msg)
-
-        except Exception as e:
-            print(e)
-            print("bring down get history")
-        finally:
-            history_socket.close()
-            history_context.term()
 
 
     def register_sub(self):
@@ -99,21 +79,38 @@ class ZMQ_subscriber():
         self.notify()
 
     def notify(self):
+        for key in self.topic_list:
+            history_num = self.history_num_list[self.topic_list.index(key)]
+            print("=== " + history_num +" History ===")
+            topic_path ='/Topics/'+ key
+            if len(self.zk_node.get_children(path=topic_path)) > int(history_num):
+                end = int(len(self.zk_node.get_children(path=topic_path))) - 1
+                start = end - 10
+                while start != end:
+                    temp_path = topic_path + '/' + str(start)
+                    data, state = self.zk_node.get(temp_path)
+                    print(data.decode("utf-8") )
+                    start = start +1
+
+            else:
+                print ("No Enough History")
+
+
 
         while True:
             print('In notify')
             print('Broker IP', self.broker_IP)
             msg = self.socket.recv_string()
-            # print(msg)
-            temp = msg.split(' ', 1)
+            print(msg)
+            temp = msg.split(' ')
             topic = temp[0]
-            temp1 = temp[1]
+            msg = temp[1]
             # print(topic)
             # print(time)
             # print(value)
-            print(msg)
-            temp = msg.split(' ')
-            info = str(time.time()) + ' ' + str(time.time() - float(temp[1]))
+
+
+            info = str(time.time()) + ' ' + str(time.time() - float(temp[2]))
             logging.info(info)
 
 
