@@ -102,12 +102,12 @@ xterm all publishers and subscribers. The command format for publishers is
 
 
  ```bash 
-     sudo python3 ZMQ_publisher.py <IP of zookeeper server> <publisher ID> <Topic>
+     sudo python3 ZMQ_publisher.py <zkServerIP> <publisherID> <topic> <ownership>
  ```
  The command format for subscribers is 
 
  ```bash 
-     sudo python3 ZMQ_subscriber.py <IP of zookeeper server> <subscriber ID> <Topic>
+     sudo python3 ZMQ_subscriber.py <zkServerIP> <subID> <topic> <historySize>
  ```
  The result of running publishers and subscribers are shown in Fig 4.
  
@@ -122,6 +122,13 @@ The broker can send the history through the history port. The output of history 
 
 ![history](./Pictures/history.jpg)
 ##### Fig 5 History of Message
+
+
+**Latency Measurement:**
+The latency is measured and plotted in Fig. 6.
+
+![latency](./Pictures/STZKSubscriber1.png)
+##### Fig 6 Latency of Message
  
 **Non-Broker Mode**
 
@@ -151,47 +158,20 @@ Then we navigate the directory back and run the publisher's script. The publishe
 The command is:
 
  ```bash 
-     sudo python3 ZMQ_publisher_NB <zookeeper IP> <publisher ID> <Topic> <its own IP>
+     sudo python3 ZMQ_publisher_NB <zookeeper IP> <publisher ID> <Topic> <its own IP> <history Size> <ownership>
  ```
  
- The running publishers are shown in Fig 6.
- ![publishersNB](./Pictures/pubsBusNB.jpg)
-
-##### Fig 6 The Running Publishers in non-broker mode
-
-
-Then we started all the subscribers (shown in Fig 7).
-
-***Note:*** the network may require some time to get connected. 
-Please try several times for the scripts.
-
- ![subscribersNB](./Pictures/subBusNB.jpg)
-
-##### Fig 7 The Running Subscribers in non-broker mode
-
-**Latency Measurement**
-
-The latency measurement is also carried out in this assignment.
-
-For bus topology, the latency is shown in Fig 8.
-
- ![busTopoLatency](./Pictures/BTZKSubscriber2.png)
- ##### Fig 8 The Latency Measurement in Bus Topology
- 
- It shows that at first, it suffers a huge latency and later become stable.
- 
- For star topology, the latency is shown in Fig 9.
- 
- ![starTopoLatency](./Pictures/STZKSubscriber2.png)
- ##### Fig 9 The Latency Measurement in Bus Topology
-
-Its latency pattern is similar to the bus topology.
+ The command for subscriber is 
+ ```bash
+     sudo python3 ZMQ_subscriber.py <zkServerIP> <subID> <topic> <historySize>
+```
+The non-broker mode is similar therefore will not be discussed in detail.
 
 **Effort of Teammates**
 In this assignment, we collaboratively finish all the work. 
-Ziran is responsible for embedding the kazoo code inside the broker script and set up watch mechanism for znodes.
-Xiaoxing modified the Mininet script for new topologies and set up zookeeper file system.
-Robert is for childrenWatch mechanism testing and latency measurement.
+Ziran is responsible for broker setup and socket construction.
+Xiaoxing modify up zookeeper file system and handle the watch mechanism.
+Robert is for non-broker mode and implement the history queue.
 
 **Reference:**
 
