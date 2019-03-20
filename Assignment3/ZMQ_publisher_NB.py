@@ -81,7 +81,7 @@ class ZMQ_publihser_NB():
 
     def publish(self):
         while True:
-            with open('./test_topic_files/' + self.topic + '.csv', newline='') as csvfile:
+            with open('./test_topic_files/' + self.topic + 'NB.csv', newline='') as csvfile:
                 spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for row in spamreader:
                     # construct a string containing the topic, the message and the ownership
