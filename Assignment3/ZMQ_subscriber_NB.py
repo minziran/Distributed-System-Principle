@@ -7,11 +7,13 @@ from kazoo.client import *
 import random
 from HistoryQueue import HistoryQueue as Hist
 
+A_LARGE_NUM = 100000000
 
 class ZMQ_subscriber():
     def __init__(self, server_IP, sub_ID, topic, histSize):
 
         try:
+            self.ownership = A_LARGE_NUM
             logging.basicConfig(filename='Subscriber' + str(sub_ID) + '.log', level=logging.DEBUG)
             self.ID = sub_ID
             self.history = Hist(histSize)
@@ -20,7 +22,7 @@ class ZMQ_subscriber():
             self.isConnected = False
             self.server_address = server_IP + ':2181'
             self.zk_node = KazooClient(hosts=self.server_address)
-            print ("===  topics ", topic,'===')
+            print("===  topics ", topic, '===')
             self.topic = topic
             self.IP_topic = {}
             self.create_ZKCli()
@@ -50,10 +52,10 @@ class ZMQ_subscriber():
         data, state = self.zk_node.get(pub_path)
         # print("^_^", state)
         # print(data.decode("utf-8"))
-        temp= data.decode("utf-8").split(' ')
+        temp = data.decode("utf-8").split(' ')
         for index, key in enumerate(temp):
             # print("Index, key ", index, key)
-            if index%2 == 1:
+            if index % 2 == 1:
                 if key not in self.IP_topic:
                     self.IP_topic[key] = temp[index - 1]
                 else:
@@ -94,37 +96,28 @@ class ZMQ_subscriber():
             print('In notify')
             temp_msg = self.socket.recv_string()
             # Update to suppress messages
-            print(temp_msg)
+            #print(temp_msg)
 
             # parse the message
             parts = temp_msg.split('#')
             msg_ownership = int(parts[0])
             topic = parts[1]
+            content = parts[2]
+
+            if self.ownership > msg_ownership:
+                # message get accepted
+                self.ownership = msg_ownership
+                print(content)
+                self.history.push_history(topic, content)
+            else:
+                # ignore the message
+                pass
 
 
-            # tempOwn = msg.split(' ', 1)
-            # if (tempOwn[2] == 1):
-            #     print(tempOwn[3])
-            #     print(msg)
-            #     temp = msg.split(' ', 1)
-            #     topic = temp[0]
-            #     temp1 = temp[1]
-            #     # print(topic)
-            #     # print(time)
-            #     # print(value)
-            #     print(msg)
-            #     temp = msg.split(' ')
-            #     info = str(time.time()) + ' ' + str(time.time() - float(temp[1]))
-            #     logging.info(info)
-            # else:
-            #     pass
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     if len(sys.argv) < 5:
         print("python3 ZMQ_subscriber_NB.py server_IP, sub_ID, topic, histSize")
         exit(0)
 
     ZMQ_subscriber(sys.argv[1], int(sys.argv[2]), sys.argv[3], int(sys.argv[4]))
     # ZMQ_subscriber('127.0.0.1', 1, 'Lights', 10)
-
