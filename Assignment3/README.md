@@ -6,9 +6,9 @@
 **Abstract:**
 
 In this assignment, a pub/sub network is established via Mininet and ZeroMQ. 
-Zookeeper is utilized to manage broker nodes. As assignment 1,
-two topologies, namely star topology and bus topology, are implemented but there are three broker nodes (it can be more by set the broker node number). 
-Multiple publishers and subscribers with various topics can be added into or removed from the network. 
+Zookeeper is utilized to manage broker nodes. Star topology are implemented but there are three broker nodes (it can be more by set the broker node number). 
+Multiple publishers and subscribers with various topics can be added into or removed from the network. History and ownership is 
+added to out program so that the broker or subscriber can store the history value.
 Finally, end-to-end measurements are carried out and the time difference is measured.
 
 **Introduction:**
@@ -63,7 +63,7 @@ They are executed in the command line interface. The version of zookeeper used i
 First we use Mininet to create a topology. The command can be found above. Here we choose star topology 
 (one may also use the bus topology). The result is shown in Fig 1.
 
-![StarTopo](./Pictures/startopoZK.jpg)
+![StarTopo](./Pictures/mininet.jpg)
 
 ##### Fig 1 A Star Topology in Mininet
 
@@ -81,22 +81,21 @@ to start the zookeeper server.
 
 The successful result is as Fig 2.
 
-![StartZKServer](./Pictures/startZKServer.jpg)
+![StartZKServer](./Pictures/zkServer.jpg)
 
 ##### Fig 2 Start the Zookeeper Server
 
 Then we navigate back to our assignment folder. 
-First we run the scripts on three brokers as shown in Fig 3. The format is as follows:
+First we run the scripts on three brokers. The format is as follows:
 
  ```bash 
      sudo python3 ZMQ_broker.py <broker ID> <IP of zookeeper server> <IP of itself>
  ```
- 
- ![StartBrokersBM](./Pictures/startBrokerBM.jpg)
+![BrokerRunning](./Pictures/brokerRunning.jpg)
 
-##### Fig 3 Start the Zookeepers
+##### Fig 3 Start the brokers
 
-We can see that broker1 becomes the leader broker and broker2 and broker3 is watching.
+We can see that broker1 becomes the leader broker and broker2 is watching.
 Then we can start the publishers and subscribers.
 
 xterm all publishers and subscribers. The command format for publishers is 
@@ -107,32 +106,22 @@ xterm all publishers and subscribers. The command format for publishers is
  ```
  The command format for subscribers is 
 
-
  ```bash 
      sudo python3 ZMQ_subscriber.py <IP of zookeeper server> <subscriber ID> <Topic>
  ```
- The result of running publishers and subscribers are shown in Fig 4 and Fig 5 respectively.
+ The result of running publishers and subscribers are shown in Fig 4.
  
-  ![StartPublishersBM](./Pictures/startPubsBM.jpg)
+ ![pubSubRunning](./Pictures/brokermode.jpg)
 
-##### Fig 4 Running Publishers
+##### Fig 4 Running Result of Publishers and Subscribers
 
-  ![StartSubscribersBM](./Pictures/startSubsBM.jpg)
+**History**
+The broker can send the history through the history port. The output of history is shown in Fig. 5.
 
-##### Fig 4 Running Publishers
+**Note:** Only the message with higher ownership (lower number of ownership, 1 is the highest) is stored. 
 
-***Broker Election***
-
-One of signifocant features of zookeeper is its election mechanism. The result is illustrated in Fig 5.
-
-  ![brokerElectionBM](./Pictures/brokerElection.jpg)
-
-##### Fig 5 Broker Election
-
-Here, we do DataWatch 
-on the broker leader. If it is down, an election is carried out to select a new leader broker.
-We use keyboard interrupt to terminate broker1, the current leader and
- the new leader broker, broker3 is elected as the new broker. In this case, the data transmission can be continued.
+![history](./Pictures/history.jpg)
+##### Fig 5 History of Message
  
 **Non-Broker Mode**
 

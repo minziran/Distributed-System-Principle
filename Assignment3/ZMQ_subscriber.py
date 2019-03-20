@@ -115,6 +115,9 @@ class ZMQ_subscriber():
 
 
 if __name__=="__main__":
+    if len(sys.argv) < 5:
+        print("python3 ZMQ_subscriber.py zkServerIP subID topic historySize")
+        exit(0)
 
     ZMQ_subscriber(sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4])
     #ZMQ_subscriber('localhost', 2, 'Lights Humidity', 10)

@@ -88,6 +88,9 @@ class ZMQ_publihser():
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 5:
+        print("python3 ZMQ_publisher.py zkServerIP publisherID topic ownership")
+        exit(-1)
 
     ZMQ_publihser(sys.argv[1], int(sys.argv[2]),sys.argv[3],sys.argv[4])
     # server_IP, pub_ID, topic, ownership
