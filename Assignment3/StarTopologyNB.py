@@ -75,4 +75,4 @@ class StarTopology(Topo):
             self.addLink(switchList[0], switchList[num])
 
 
-topos = { 'startopoNB': ( lambda: StarTopology(3, 3) ) }
+topos = { 'startopoNB': ( lambda: StarTopology(2, 2) ) }
